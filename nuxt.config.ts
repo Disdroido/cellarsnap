@@ -28,7 +28,7 @@ export default defineNuxtConfig({
     stripeSecretKey: process.env.STRIPE_SECRET_KEY,
     stripeEndpointSecret: process.env.STRIPE_ENDPOINT_SECRET,
     subscriptionGraceDays: 3,
-    initialPlanName: 'Free Trial',
+    initialPlanName: 'Baby Vino',
     initialPlanActiveMonths: 1,
     openAIKey: process.env.OPENAI_API_KEY,
     public: {

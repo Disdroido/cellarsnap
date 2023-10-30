@@ -15,9 +15,9 @@ export default defineProtectedEventHandler(async (event: H3Event) => {
   }
 
   const notesService = new NotesService();
-  const note = await notesService.getNoteById(mycellar);
+  const myCellar = await notesService.getNoteById(mycellar);
 
   return {
-    note
+    myCellar
   };
 });

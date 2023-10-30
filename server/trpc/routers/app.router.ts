@@ -4,7 +4,7 @@ import { authRouter } from './auth.router';
 import { accountRouter } from './account.router';
 
 export const appRouter = router({
-  notes: notesRouter,
+  mycellars: notesRouter,
   auth: authRouter,
   account: accountRouter
 });

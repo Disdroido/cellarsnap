@@ -124,7 +124,7 @@ export const accountRouter = router({
       const membership: MembershipWithAccount =
         await accountService.deleteMembership(
           ctx.activeAccountId!,
-          input.membership_id.
+          input.membership_id
         );
       return {
         membership

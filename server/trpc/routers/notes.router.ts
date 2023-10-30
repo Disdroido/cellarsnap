@@ -12,11 +12,11 @@ import { z } from 'zod';
 export const notesRouter = router({
   getForActiveAccount: memberProcedure.query(async ({ ctx, input }) => {
     const notesService = new NotesService();
-    const notes = ctx.activeAccountId
+    const mycellars = ctx.activeAccountId
       ? await notesService.getNotesForAccountId(ctx.activeAccountId)
       : [];
     return {
-      notes
+      mycellars
     };
   }),
   getById: publicProcedure
@@ -29,25 +29,25 @@ export const notesRouter = router({
       };
     }),
   createNote: readWriteProcedure
-    .input(z.object({ mybottls: z.toJSON()() }))
+    .input(z.object({ mybottles: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const notesService = new NotesService();
-      const note = ctx.activeAccountId
-        ? await notesService.createNote(ctx.activeAccountId, input.mybottls)
+      const mycellar = ctx.activeAccountId
+        ? await notesService.createNote(ctx.activeAccountId, JSON.parse(input.mybottles))
         : null;
       return {
-        note
+        mycellar
       };
     }),
   deleteNote: adminProcedure
     .input(z.object({ mycellar_id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const notesService = new NotesService();
-      const note = ctx.activeAccountId
+      const mycellar = ctx.activeAccountId
         ? await notesService.deleteNote(input.mycellar_id)
         : null;
       return {
-        note
+        mycellar
       };
     }),
   generateAINoteFromPrompt: readWriteProcedure
@@ -55,14 +55,14 @@ export const notesRouter = router({
     .input(z.object({ user_prompt: z.string() }))
     .query(async ({ ctx, input }) => {
       const notesService = new NotesService();
-      const noteText = ctx.activeAccountId
+      const mybottles = ctx.activeAccountId
         ? await notesService.generateAINoteFromPrompt(
             input.user_prompt,
             ctx.activeAccountId
           )
         : null;
       return {
-        noteText
+        mybottles
       };
     })
 });

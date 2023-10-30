@@ -12,39 +12,39 @@ export const useNotesStore = defineStore('notes', () => {
   const accountStore = useAccountStore();
   const { activeAccountId } = storeToRefs(accountStore);
 
-  let _notes: Ref<MyCellars[]> = ref([]);
+  let _mycellars: Ref<MyCellars[]> = ref([]);
 
   async function fetchNotesForCurrentUser() {
     const { $client } = useNuxtApp();
-    const { notes } = await $client.notes.getForActiveAccount.query();
-    if (notes) {
-      _notes.value = notes;
+    const { mycellars } = await $client.mycellars.getForActiveAccount.query();
+    if (mycellars) {
+      _mycellars.value = mycellars;
     }
   }
 
-  async function createNote(note_text: string) {
+  async function createNote(mybottles: string) {
     const { $client } = useNuxtApp();
-    const { note } = await $client.notes.createNote.mutate({ note_text });
-    if (note) {
-      _notes.value.push(note);
+    const { mycellar } = await $client.mycellars.createNote.mutate({ mybottles });
+    if (mycellar) {
+      _mycellars.value.push(mycellar);
     }
   }
 
-  async function deleteNote(note_id: number) {
+  async function deleteNote(mycellar_id: string) {
     const { $client } = useNuxtApp();
-    const { note } = await $client.notes.deleteNote.mutate({ note_id });
-    if (note) {
-      _notes.value = _notes.value.filter(n => n.id !== note.id);
+    const { mycellar } = await $client.mycellars.deleteNote.mutate({ mycellar_id });
+    if (mycellar) {
+      _mycellars.value = _mycellars.value.filter(n => n.id !== mycellar.id);
     }
   }
 
-  async function generateAINoteFromPrompt(user_prompt: string) {
-    const { $client } = useNuxtApp();
-    const { noteText } = await $client.notes.generateAINoteFromPrompt.query({
-      user_prompt
-    });
-    return noteText ? noteText : '';
-  }
+  // async function generateAINoteFromPrompt(user_prompt: string) {
+  //   const { $client } = useNuxtApp();
+  //   const { noteText } = await $client.notes.generateAINoteFromPrompt.query({
+  //     user_prompt
+  //   });
+  //   return noteText ? noteText : '';
+  // }
 
   // if the active account changes, fetch notes again (i.e dynamic.. probabl overkill)
   watch(activeAccountId, async (val, oldVal) => {
@@ -52,10 +52,10 @@ export const useNotesStore = defineStore('notes', () => {
   });
 
   return {
-    notes: _notes,
+    mycellars: _mycellars,
     fetchNotesForCurrentUser,
     createNote,
     deleteNote,
-    generateAINoteFromPrompt
+    // generateAINoteFromPrompt
   };
 });

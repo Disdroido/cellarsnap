@@ -9,7 +9,7 @@
   const accountStore = useAccountStore();
   const { activeMembership } = storeToRefs(accountStore);
   const notesStore = useNotesStore();
-  const { notes } = storeToRefs(notesStore); // ensure the notes list is reactive
+  const { mycellars } = storeToRefs(notesStore); // ensure the notes list is reactive
   const newNoteText = ref('');
 
   async function addNote() {
@@ -17,12 +17,12 @@
     newNoteText.value = '';
   }
 
-  async function genNote() {
-    const genNoteText = await notesStore.generateAINoteFromPrompt(
-      newNoteText.value
-    );
-    newNoteText.value = genNoteText;
-  }
+  // async function genNote() {
+  //   const genNoteText = await notesStore.generateAINoteFromPrompt(
+  //     newNoteText.value
+  //   );
+  //   newNoteText.value = genNoteText;
+  // }
 
   onMounted(async () => {
     await accountStore.init();
@@ -73,11 +73,11 @@
 
     <div class="w-full max-w-md">
       <div
-        v-for="note in notes"
+        v-for="mycellar in mycellars" :key="mycellar.id"
         class="bg-white rounded-lg shadow-lg text-center px-6 py-8 md:mx-4 md:my-4">
-        <p class="text-gray-600 mb-4">{{ note.note_text }}</p>
+        <p class="text-gray-600 mb-4">{{ mycellar.name }}</p>
         <button
-          @click.prevent="notesStore.deleteNote(note.id)"
+          @click.prevent="notesStore.deleteNote(mycellar.id)"
           v-if="
             activeMembership &&
             (activeMembership.access === ACCOUNT_ACCESS.ADMIN ||
