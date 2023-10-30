@@ -5,6 +5,7 @@
   const notifyStore = useNotifyStore();
 
   const loading = ref(false);
+  const username = ref('');
   const email = ref('');
   const password = ref('');
   const confirmPassword = ref('');
@@ -15,8 +16,26 @@
       loading.value = true;
       const { data, error } = await supabase.auth.signUp({
         email: email.value,
-        password: password.value
+        password: password.value,
+        options: {
+          data: {
+            name: username.value,
+          }
+        }
       });
+      const { data: existingUser } = await supabase.from('users').select().eq('email', email.value);
+      if (existingUser.length === 0) {
+        const { data, error } = await supabase.from('users').insert({
+          name: username.value,
+          email: email.value
+        });
+        if (error) {
+          throw error;
+        } else {
+          notifyStore.notify(error, NotificationType.Error);
+        }
+      }
+
       if (error) {
         throw error;
       } else {
@@ -40,6 +59,16 @@
     <div class="w-full max-w-md p-6 space-y-6 bg-white rounded-lg shadow-lg">
       <h1 class="text-3xl font-bold text-center">Sign up</h1>
       <form @submit.prevent="handleStandardSignup" class="space-y-4">
+        <div>
+          <label for="username" class="block mb-2 font-bold">Name</label>
+          <input
+            v-model="username"
+            id="username"
+            type="text"
+            class="w-full p-2 border border-gray-400 rounded-md"
+            placeholder="Enter your name"
+            required />
+        </div>
         <div>
           <label for="email" class="block mb-2 font-bold">Email</label>
           <input

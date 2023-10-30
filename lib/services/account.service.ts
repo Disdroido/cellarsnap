@@ -15,7 +15,7 @@ import { AccountLimitError } from './errors';
 const config = useRuntimeConfig();
 
 export default class AccountService {
-  async getAccountById(account_id: number): Promise<AccountWithMembers> {
+  async getAccountById(account_id: string): Promise<AccountWithMembers> {
     return prisma_client.account.findFirstOrThrow({
       where: { id: account_id },
       ...accountWithMembers
@@ -31,7 +31,7 @@ export default class AccountService {
     });
   }
 
-  async getAccountMembers(account_id: number): Promise<MembershipWithUser[]> {
+  async getAccountMembers(account_id: string): Promise<MembershipWithUser[]> {
     return prisma_client.membership.findMany({
       where: { account_id },
       ...membershipWithUser
@@ -39,7 +39,7 @@ export default class AccountService {
   }
 
   async updateAccountStipeCustomerId(
-    account_id: number,
+    account_id: string,
     stripe_customer_id: string
   ) {
     return await prisma_client.account.update({
@@ -83,7 +83,8 @@ export default class AccountService {
           current_period_ends,
           plan_id: paid_plan.id,
           features: paid_plan.features,
-          max_notes: paid_plan.max_notes,
+          max_cellars: paid_plan.max_cellars,
+          max_bottles: paid_plan.max_bottles,
           max_members: paid_plan.max_members,
           plan_name: paid_plan.name,
           ai_gen_max_pm: paid_plan.ai_gen_max_pm,
@@ -94,8 +95,8 @@ export default class AccountService {
   }
 
   async acceptPendingMembership(
-    account_id: number,
-    membership_id: number
+    account_id: string,
+    membership_id: string
   ): Promise<MembershipWithAccount> {
     const membership = prisma_client.membership.findFirstOrThrow({
       where: {
@@ -119,8 +120,8 @@ export default class AccountService {
   }
 
   async deleteMembership(
-    account_id: number,
-    membership_id: number
+    account_id: string,
+    membership_id: string
   ): Promise<MembershipWithAccount> {
     const membership = prisma_client.membership.findFirstOrThrow({
       where: {
@@ -141,8 +142,8 @@ export default class AccountService {
   }
 
   async joinUserToAccount(
-    user_id: number,
-    account_id: number,
+    user_id: string,
+    account_id: string,
     pending: boolean
   ): Promise<MembershipWithAccount> {
     const account = await prisma_client.account.findUnique({
@@ -179,7 +180,7 @@ export default class AccountService {
     });
   }
 
-  async changeAccountName(account_id: number, new_name: string) {
+  async changeAccountName(account_id: string, new_name: string) {
     return prisma_client.account.update({
       where: { id: account_id },
       data: {
@@ -188,7 +189,7 @@ export default class AccountService {
     });
   }
 
-  async changeAccountPlan(account_id: number, plan_id: number) {
+  async changeAccountPlan(account_id: string, plan_id: string) {
     const plan = await prisma_client.plan.findFirstOrThrow({
       where: { id: plan_id }
     });
@@ -197,12 +198,13 @@ export default class AccountService {
       data: {
         plan_id: plan_id,
         features: plan.features,
-        max_notes: plan.max_notes
+        max_cellars: plan.max_cellars,
+        max_bottles: plan.max_bottles
       }
     });
   }
 
-  async rotateJoinPassword(account_id: number) {
+  async rotateJoinPassword(account_id: string) {
     const join_password: string = generator.generate({
       length: 10,
       numbers: true
@@ -218,8 +220,8 @@ export default class AccountService {
   // Existing OWNER memberships are downgraded to ADMIN
   // In future, some sort of Billing/Stripe tie in here e.g. changing email details on the Account, not sure.
   async claimOwnershipOfAccount(
-    user_id: number,
-    account_id: number
+    user_id: string,
+    account_id: string
   ): Promise<MembershipWithUser[]> {
     const membership = await prisma_client.membership.findUniqueOrThrow({
       where: {
@@ -279,8 +281,8 @@ export default class AccountService {
 
   // Upgrade access of a membership.  Cannot use this method to upgrade to or downgrade from OWNER access
   async changeUserAccessWithinAccount(
-    user_id: number,
-    account_id: number,
+    user_id: string,
+    account_id: string,
     access: ACCOUNT_ACCESS
   ) {
     if (access === ACCOUNT_ACCESS.OWNER) {
@@ -341,7 +343,7 @@ export default class AccountService {
   }
   */
 
-  async getAccountWithPeriodRollover(account_id: number) {
+  async getAccountWithPeriodRollover(account_id: string) {
     const account = await prisma_client.account.findFirstOrThrow({
       where: { id: account_id }
     });
@@ -366,7 +368,7 @@ export default class AccountService {
     return account;
   }
 
-  async checkAIGenCount(account_id: number) {
+  async checkAIGenCount(account_id: string) {
     const account = await this.getAccountWithPeriodRollover(account_id);
 
     if (account.ai_gen_count >= account.ai_gen_max_pm) {

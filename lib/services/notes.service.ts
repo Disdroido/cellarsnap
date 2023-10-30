@@ -5,41 +5,41 @@ import AccountService from './account.service';
 
 export default class NotesService {
   async getAllNotes() {
-    return prisma_client.note.findMany();
+    return prisma_client.myCellars.findMany();
   }
 
-  async getNoteById(id: number) {
-    return prisma_client.note.findUniqueOrThrow({ where: { id } });
+  async getNoteById(id: string) {
+    return prisma_client.myCellars.findUniqueOrThrow({ where: { id } });
   }
 
-  async getNotesForAccountId(account_id: number) {
-    return prisma_client.note.findMany({ where: { account_id } });
+  async getNotesForAccountId(account_id: string) {
+    return prisma_client.myCellars.findMany({ where: { account_id } });
   }
 
-  async createNote(account_id: number, note_text: string) {
+  async createNote(account_id: string, my_bottles: JSON) {
     const account = await prisma_client.account.findFirstOrThrow({
       where: { id: account_id },
-      include: { notes: true }
+      include: { mycellars: true }
     });
 
-    if (account.notes.length >= account.max_notes) {
+    if (account.mycellars.length >= account.max_cellars) {
       throw new AccountLimitError(
         'Note Limit reached, no new notes can be added'
       );
     }
 
-    return prisma_client.note.create({ data: { account_id, note_text } });
+    return prisma_client.myCellars.create({ data: { account_id, my_bottles } });
   }
 
-  async updateNote(id: number, note_text: string) {
-    return prisma_client.note.update({ where: { id }, data: { note_text } });
+  async updateNote(id: string, my_bottles: JSON) {
+    return prisma_client.myCellars.update({ where: { id }, data: { my_bottles } });
   }
 
-  async deleteNote(id: number) {
-    return prisma_client.note.delete({ where: { id } });
+  async deleteNote(id: string) {
+    return prisma_client.myCellars.delete({ where: { id } });
   }
 
-  async generateAINoteFromPrompt(userPrompt: string, account_id: number) {
+  async generateAINoteFromPrompt(userPrompt: string, account_id: string) {
     const accountService = new AccountService();
     const account = await accountService.checkAIGenCount(account_id);
 

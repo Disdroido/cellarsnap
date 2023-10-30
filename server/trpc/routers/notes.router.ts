@@ -20,31 +20,31 @@ export const notesRouter = router({
     };
   }),
   getById: publicProcedure
-    .input(z.object({ note_id: z.number() }))
+    .input(z.object({ mycellar_id: z.string() }))
     .query(async ({ ctx, input }) => {
       const notesService = new NotesService();
-      const note = await notesService.getNoteById(input.note_id);
+      const mycellar = await notesService.getNoteById(input.mycellar_id);
       return {
-        note
+        mycellar
       };
     }),
   createNote: readWriteProcedure
-    .input(z.object({ note_text: z.string() }))
+    .input(z.object({ mybottls: z.toJSON()() }))
     .mutation(async ({ ctx, input }) => {
       const notesService = new NotesService();
       const note = ctx.activeAccountId
-        ? await notesService.createNote(ctx.activeAccountId, input.note_text)
+        ? await notesService.createNote(ctx.activeAccountId, input.mybottls)
         : null;
       return {
         note
       };
     }),
   deleteNote: adminProcedure
-    .input(z.object({ note_id: z.number() }))
+    .input(z.object({ mycellar_id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const notesService = new NotesService();
       const note = ctx.activeAccountId
-        ? await notesService.deleteNote(input.note_id)
+        ? await notesService.deleteNote(input.mycellar_id)
         : null;
       return {
         note

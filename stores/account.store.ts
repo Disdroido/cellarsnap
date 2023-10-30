@@ -24,7 +24,7 @@ so that other routers can use them to filter results to the active user and acco
 */
 interface State {
   dbUser: FullDBUser | null;
-  activeAccountId: number | null;
+  activeAccountId: string | null;
   activeAccountMembers: MembershipWithUser[];
 }
 
@@ -39,7 +39,7 @@ export const useAccountStore = defineStore('account', {
   getters: {
     activeMembership: state =>
       state.dbUser?.memberships.find(
-        m => m.account_id === state.activeAccountId
+        m => m.account_id == state.activeAccountId
       )
   },
   actions: {
@@ -78,7 +78,7 @@ export const useAccountStore = defineStore('account', {
         }
       }
     },
-    async changeActiveAccount(account_id: number) {
+    async changeActiveAccount(account_id: string) {
       const { $client } = useNuxtApp();
       await $client.account.changeActiveAccount.mutate({ account_id }); // sets active account on context for other routers and sets the preference in a cookie
 
@@ -97,7 +97,7 @@ export const useAccountStore = defineStore('account', {
         this.activeMembership.account.name = account.name;
       }
     },
-    async acceptPendingMembership(membership_id: number) {
+    async acceptPendingMembership(membership_id: string) {
       const { $client } = useNuxtApp();
       const { data: membership } =
         await $client.account.acceptPendingMembership.useQuery({
@@ -106,13 +106,13 @@ export const useAccountStore = defineStore('account', {
 
       if (membership.value && membership.value.membership?.pending === false) {
         for (const m of this.activeAccountMembers) {
-          if (m.id === membership_id) {
+          if (m.id === String(membership_id)) {
             m.pending = false;
           }
         }
       }
     },
-    async rejectPendingMembership(membership_id: number) {
+    async rejectPendingMembership(membership_id: string) {
       const { $client } = useNuxtApp();
       const { data: membership } =
         await $client.account.rejectPendingMembership.useQuery({
@@ -121,7 +121,7 @@ export const useAccountStore = defineStore('account', {
 
       if (membership.value) {
         this.activeAccountMembers = this.activeAccountMembers.filter(
-          m => m.id !== membership_id
+          m => m.id !== String(membership_id)
         );
       }
     },
@@ -132,7 +132,7 @@ export const useAccountStore = defineStore('account', {
 
       if (membership.value) {
         this.activeAccountMembers = this.activeAccountMembers.filter(
-          m => m.id !== membership_id
+          m => m.id !== String(membership_id)
         );
       }
     },
@@ -143,7 +143,7 @@ export const useAccountStore = defineStore('account', {
         this.activeMembership.account = account;
       }
     },
-    async joinUserToAccountPending(account_id: number) {
+    async joinUserToAccountPending(account_id: string) {
       if (!this.dbUser) {
         return;
       }
@@ -151,14 +151,14 @@ export const useAccountStore = defineStore('account', {
       const { membership } =
         await $client.account.joinUserToAccountPending.mutate({
           account_id,
-          user_id: this.dbUser.id
+          user_id: String(this.dbUser.id)
         });
       if (membership && this.activeMembership) {
         this.dbUser?.memberships.push(membership);
       }
     },
     async changeUserAccessWithinAccount(
-      user_id: number,
+      user_id: string,
       access: ACCOUNT_ACCESS
     ) {
       const { $client } = useNuxtApp();

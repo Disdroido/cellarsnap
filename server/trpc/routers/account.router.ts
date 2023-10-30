@@ -22,11 +22,11 @@ export const accountRouter = router({
   }),
   getActiveAccountId: publicProcedure.query(({ ctx }) => {
     return {
-      activeAccountId: ctx.activeAccountId
+      activeAccountId: String(ctx.activeAccountId)
     };
   }),
   changeActiveAccount: protectedProcedure
-    .input(z.object({ account_id: z.number() }))
+    .input(z.object({ account_id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const activeMembership = ctx.dbUser?.memberships.find(
         membership => membership.account_id == input.account_id
@@ -78,12 +78,12 @@ export const accountRouter = router({
       };
     }),
   joinUserToAccountPending: publicProcedure // this uses a passed account id rather than using the active account because user is usually active on their personal or some other account when they attempt to join a new account
-    .input(z.object({ account_id: z.number(), user_id: z.number() }))
+    .input(z.object({ account_id: z.string(), user_id: z.string() }))
     .mutation(async ({ input }) => {
       const accountService = new AccountService();
       const membership: MembershipWithAccount =
         await accountService.joinUserToAccount(
-          input.user_id,
+          String(input.user_id),
           input.account_id,
           true
         );
@@ -92,7 +92,7 @@ export const accountRouter = router({
       };
     }),
   acceptPendingMembership: adminProcedure
-    .input(z.object({ membership_id: z.number() }))
+    .input(z.object({ membership_id: z.string() }))
     .query(async ({ ctx, input }) => {
       const accountService = new AccountService();
       const membership: MembershipWithAccount =
@@ -105,7 +105,7 @@ export const accountRouter = router({
       };
     }),
   rejectPendingMembership: adminProcedure
-    .input(z.object({ membership_id: z.number() }))
+    .input(z.object({ membership_id: z.string() }))
     .query(async ({ ctx, input }) => {
       const accountService = new AccountService();
       const membership: MembershipWithAccount =
@@ -118,13 +118,13 @@ export const accountRouter = router({
       };
     }),
   deleteMembership: ownerProcedure
-    .input(z.object({ membership_id: z.number() }))
+    .input(z.object({ membership_id: z.string() }))
     .query(async ({ ctx, input }) => {
       const accountService = new AccountService();
       const membership: MembershipWithAccount =
         await accountService.deleteMembership(
           ctx.activeAccountId!,
-          input.membership_id
+          input.membership_id.
         );
       return {
         membership
@@ -133,7 +133,7 @@ export const accountRouter = router({
   changeUserAccessWithinAccount: adminProcedure
     .input(
       z.object({
-        user_id: z.number(),
+        user_id: z.string(),
         access: z.enum([
           ACCOUNT_ACCESS.ADMIN,
           ACCOUNT_ACCESS.OWNER,

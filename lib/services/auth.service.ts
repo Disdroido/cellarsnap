@@ -16,7 +16,7 @@ export default class AuthService {
     });
   }
 
-  async getUserById(user_id: number): Promise<FullDBUser | null> {
+  async getUserById(user_id: string): Promise<FullDBUser | null> {
     return prisma_client.user.findFirstOrThrow({
       where: { id: user_id },
       ...fullDBUser
@@ -25,7 +25,7 @@ export default class AuthService {
 
   async createUser(
     supabase_uid: string,
-    display_name: string,
+    name: string,
     email: string
   ): Promise<FullDBUser | null> {
     const trialPlan = await prisma_client.plan.findFirstOrThrow({
@@ -38,20 +38,21 @@ export default class AuthService {
     return prisma_client.user.create({
       data: {
         supabase_uid: supabase_uid,
-        display_name: display_name,
+        name: name,
         email: email,
         memberships: {
           create: {
             account: {
               create: {
-                name: display_name,
+                name: name,
                 current_period_ends: UtilService.addMonths(
                   new Date(),
                   config.initialPlanActiveMonths
                 ),
                 plan_id: trialPlan.id,
                 features: trialPlan.features,
-                max_notes: trialPlan.max_notes,
+                max_cellars: trialPlan.max_cellars,
+                max_bottles: trialPlan.max_bottles,
                 max_members: trialPlan.max_members,
                 plan_name: trialPlan.name,
                 join_password: join_password
@@ -65,7 +66,7 @@ export default class AuthService {
     });
   }
 
-  async deleteUser(user_id: number): Promise<FullDBUser> {
+  async deleteUser(user_id: string): Promise<FullDBUser> {
     return prisma_client.user.delete({
       where: { id: user_id },
       ...fullDBUser

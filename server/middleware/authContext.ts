@@ -10,7 +10,7 @@ declare module 'h3' {
   interface H3EventContext {
     user?: User; // the Supabase User
     dbUser?: FullDBUser; // the corresponding Database User
-    activeAccountId?: number; // the account ID that is active for the user
+    activeAccountId?: string; // the account ID that is active for the user
   }
 }
 
@@ -51,16 +51,16 @@ export default defineEventHandler(async event => {
         if (
           preferredAccountId &&
           dbUser?.memberships.find(
-            m => m.account_id === +preferredAccountId && !m.pending
+            m => m.account_id === preferredAccountId && !m.pending
           )
         ) {
-          activeAccountId = +preferredAccountId;
+          activeAccountId = preferredAccountId;
         } else {
-          const defaultActive = dbUser.memberships[0].account_id.toString();
+          const defaultActive = dbUser.memberships[0].account_id;
           setCookie(event, 'preferred-active-account-id', defaultActive, {
             expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 10)
           });
-          activeAccountId = +defaultActive;
+          activeAccountId = defaultActive;
         }
         if (activeAccountId) {
           event.context.activeAccountId = activeAccountId;

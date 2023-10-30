@@ -1,4 +1,4 @@
-import { Note } from '.prisma/client';
+import { MyCellars } from '.prisma/client';
 import { defineStore, storeToRefs } from 'pinia';
 import { Ref } from 'vue';
 
@@ -12,7 +12,7 @@ export const useNotesStore = defineStore('notes', () => {
   const accountStore = useAccountStore();
   const { activeAccountId } = storeToRefs(accountStore);
 
-  let _notes: Ref<Note[]> = ref([]);
+  let _notes: Ref<MyCellars[]> = ref([]);
 
   async function fetchNotesForCurrentUser() {
     const { $client } = useNuxtApp();
