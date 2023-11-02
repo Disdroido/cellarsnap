@@ -3,7 +3,22 @@
 </script>
 
 <template>
-  <div class="navbar bg-white shadow-lg">
+  <div class="navbar bg-base-100 h-20">
+    <Notifications />
+
+    <div class="flex-1">
+      <NuxtLink to="/" class="pl-5 normal-case text-xl">CellarSnap</NuxtLink>
+    </div>
+    <div class="flex-none">
+      <ul class="menu menu-horizontal px-3 flex gap-3">
+        <li v-if="user"><NuxtLink to="/dashboard">Dashboard</NuxtLink></li>
+        <li><NuxtLink to="/pricing">Pricing</NuxtLink></li>
+        <li v-if="!user"><NuxtLink to="/signin">Sign In</NuxtLink></li>
+        <li v-if="!user"><NuxtLink to="/signup">Start for free</NuxtLink></li>
+      </ul>
+    </div>
+  </div>
+  <!-- <div class="navbar bg-white shadow-lg">
     <Notifications />
     <div class="navbar-start">
       <div class="dropdown">
@@ -49,5 +64,5 @@
       </ul>
     </div>
     <UserAccount v-if="user" :user="user" />
-  </div>
+  </div> -->
 </template>
