@@ -1,5 +1,6 @@
 import { MyCellars } from '.prisma/client';
 import { defineStore, storeToRefs } from 'pinia';
+import { JSONArray } from 'superjson/dist/types';
 import { Ref } from 'vue';
 
 /*
@@ -22,9 +23,9 @@ export const useNotesStore = defineStore('notes', () => {
     }
   }
 
-  async function createNote(mybottles: string) {
+  async function createNote(name: string) {
     const { $client } = useNuxtApp();
-    const { mycellar } = await $client.mycellars.createNote.mutate({ mybottles });
+    const { mycellar } = await $client.mycellars.createNote.mutate({ name });
     if (mycellar) {
       _mycellars.value.push(mycellar);
     }

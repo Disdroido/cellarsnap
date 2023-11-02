@@ -29,11 +29,11 @@ export const notesRouter = router({
       };
     }),
   createNote: readWriteProcedure
-    .input(z.object({ mybottles: z.string() }))
+    .input(z.object({ name: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const notesService = new NotesService();
       const mycellar = ctx.activeAccountId
-        ? await notesService.createNote(ctx.activeAccountId, JSON.parse(input.mybottles))
+        ? await notesService.createNote(ctx.activeAccountId, input.name)
         : null;
       return {
         mycellar

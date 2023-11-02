@@ -10,8 +10,8 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/supabase',
     '@pinia/nuxt',
-    '@nuxtjs/tailwindcss',
-    'nuxt-icon'
+    'nuxt-icon',
+    '@nuxt/ui'
   ],
   imports: {
     dirs: ['./stores']
@@ -21,7 +21,7 @@ export default defineNuxtConfig({
       htmlAttrs: {
         lang: 'en'
       },
-      title: 'SupaNuxt SaaS'
+      title: 'CellarSnap'
     }
   },
   runtimeConfig: {

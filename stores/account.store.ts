@@ -125,7 +125,7 @@ export const useAccountStore = defineStore('account', {
         );
       }
     },
-    async deleteMembership(membership_id: number) {
+    async deleteMembership(membership_id: string) {
       const { $client } = useNuxtApp();
       const { data: membership } =
         await $client.account.deleteMembership.useQuery({ membership_id });

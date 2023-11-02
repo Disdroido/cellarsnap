@@ -2,6 +2,7 @@ import prisma_client from '~~/prisma/prisma.client';
 import { openai } from './openai.client';
 import { AccountLimitError } from './errors';
 import AccountService from './account.service';
+import { JSONArray } from 'superjson/dist/types';
 
 export default class NotesService {
   async getAllNotes() {
@@ -16,7 +17,7 @@ export default class NotesService {
     return prisma_client.myCellars.findMany({ where: { account_id } });
   }
 
-  async createNote(account_id: string, my_bottles: JSON) {
+  async createNote(account_id: string, name: string) {
     const account = await prisma_client.account.findFirstOrThrow({
       where: { id: account_id },
       include: { mycellars: true }
@@ -28,11 +29,11 @@ export default class NotesService {
       );
     }
 
-    return prisma_client.myCellars.create({ data: { account_id, my_bottles } });
+    return prisma_client.myCellars.create({ data: { account_id, name } });
   }
 
-  async updateNote(id: string, my_bottles: JSON) {
-    return prisma_client.myCellars.update({ where: { id }, data: { my_bottles } });
+  async updateNote(id: string, name: string) {
+    return prisma_client.myCellars.update({ where: { id }, data: { name } });
   }
 
   async deleteNote(id: string) {
