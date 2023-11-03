@@ -32,8 +32,7 @@
 <template>
   <Sidebar />
   
-  <div
-    class="flex flex-col items-center max-w-7xl mx-auto py-12 px-4 sm:px-6 lg:py-16 lg:px-8">
+  <UContainer :ui="{ base: 'md:ml-[250px] 2xl:mx-auto' }">
     <div class="text-center mb-12">
       <h2
         class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl mb-4">
@@ -90,5 +89,5 @@
         </button>
       </div>
     </div>
-  </div>
+  </UContainer>
 </template>

@@ -35,6 +35,7 @@
     "@pinia/nuxt": "^0.4.6",
     "@trpc/client": "^10.9.0",
     "@trpc/server": "^10.9.0",
+    "chart.js": "^4.4.0",
     "daisyui": "^2.51.5",
     "generate-password-ts": "^1.6.3",
     "openai": "^3.3.0",
@@ -43,6 +44,7 @@
     "superjson": "^1.12.2",
     "trpc-nuxt": "^0.8.0",
     "vanilla-cookieconsent": "^2.9.2",
+    "vue-chartjs": "^5.2.0",
     "zod": "^3.20.2"
   },
   "overrides": {
