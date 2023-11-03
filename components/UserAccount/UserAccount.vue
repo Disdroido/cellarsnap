@@ -9,10 +9,10 @@
 </script>
 
 <template>
-  <div class="navbar-end">
+  <div class="">
     <div class="dropdown dropdown-end">
       <label tabindex="0" class="btn btn-ghost btn-circle avatar text-white bg-white">
-        <div class="w-10 rounded-full">
+        <div class="w-7 rounded-full">
           <img
             v-if="user.user_metadata?.avatar_url"
             :src="user.user_metadata.avatar_url"

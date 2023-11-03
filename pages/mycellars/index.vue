@@ -31,8 +31,7 @@
 </script>
 <template>
   <Sidebar />
-  <div
-    class="flex flex-col items-center mx-auto py-12 ml-80">
+  <UContainer>
     <div class="text-center mb-12">
       <h2
         class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl mb-4">
@@ -72,27 +71,29 @@
       </div>
     </div>
 
-    <UContainer :ui="{ base: 'w-full', constrained: '' }">
-      <div v-for="mycellar in mycellars" :key="mycellar.id" class="flex flex-row">
-        <UCard :ui="{ base: 'w-1/3 border-2 border-[#1B998B]', shadow: 'shadow-lg', ring: '', divide: '' }">
-          <template #header>
-            <p class="uppercase text-2xl">{{ mycellar.name }}</p>
-          </template>
-          <Placeholder class="h-32" />
-        </UCard>
+      <div class="container">
+        <div v-for="mycellar in mycellars" :key="mycellar.id" class="flex flex-row">
+          <NuxtLink key="{mycellar.id}" :to="`/mycellars/${mycellar.id}`">
+            <UCard :ui="{ base: 'grow border-2 border-[#1B998B]', shadow: 'shadow-lg', ring: '', divide: '' }">
+              <template #header>
+                <p class="uppercase text-2xl">{{ mycellar.name }}</p>
+              </template>
+              <Placeholder class="h-32" />
+            </UCard>
+          </NuxtLink>
 
-        <!-- <p class="text-gray-600 mb-4">{{ mycellar.name }}</p>
-        <button
-          @click.prevent="notesStore.deleteNote(mycellar.id)"
-          v-if="
-            activeMembership &&
-            (activeMembership.access === ACCOUNT_ACCESS.ADMIN ||
-              activeMembership.access === ACCOUNT_ACCESS.OWNER)
-          "
-          class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue">
-          Delete
-        </button> -->
+          <!-- <p class="text-gray-600 mb-4">{{ mycellar.name }}</p>
+          <button
+            @click.prevent="notesStore.deleteNote(mycellar.id)"
+            v-if="
+              activeMembership &&
+              (activeMembership.access === ACCOUNT_ACCESS.ADMIN ||
+                activeMembership.access === ACCOUNT_ACCESS.OWNER)
+            "
+            class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue">
+            Delete
+          </button> -->
+        </div>
       </div>
-    </UContainer>
-  </div>
+  </UContainer>
 </template>

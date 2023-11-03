@@ -1,11 +1,6 @@
 <script setup lang="ts">
   const user = useSupabaseUser();
   const isOpen = ref(true);
-
-  const items = [{
-    label: 'MY CELLARS',
-    slot: 'my-cellars'
-  }]
 </script>
 
 <template>

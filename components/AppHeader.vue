@@ -1,5 +1,8 @@
 <script setup lang="ts">
+  import { useRoute } from 'vue-router';
   const user = useSupabaseUser();
+  const $route = useRoute();
+  const isOpen = ref(true); 
 </script>
 
 <template>
@@ -9,13 +12,14 @@
     <div class="flex-1">
       <NuxtLink to="/" class="pl-5 normal-case text-xl">CellarSnap</NuxtLink>
     </div>
-    <div class="flex-none">
-      <ul class="menu menu-horizontal px-3 flex gap-3">
+    <div class="flex-1 flex-row justify-end justify-items-end">
+      <ul class="menu menu-horizontal px-3 flex gap-3 justify-end">
         <li v-if="user"><NuxtLink to="/dashboard">Dashboard</NuxtLink></li>
         <li><NuxtLink to="/pricing">Pricing</NuxtLink></li>
         <li v-if="!user"><NuxtLink to="/signin">Sign In</NuxtLink></li>
         <li v-if="!user"><NuxtLink to="/signup">Start for free</NuxtLink></li>
       </ul>
+      <UserAccount v-if="user" :user="user" />
     </div>
   </div>
   <!-- <div class="navbar bg-white shadow-lg">
@@ -65,4 +69,5 @@
     </div>
     <UserAccount v-if="user" :user="user" />
   </div> -->
+
 </template>
