@@ -10,7 +10,7 @@
         class="flex flex-col flex-1"
         :ui="{
           body: { base: 'flex-1', padding: 'sm:p-2' },
-          background: 'bg-base-100',
+          background: 'bg-base-100 dark:bg-base-100',
           rounded: 'rounded-none',
           ring: '',
           divide: 'divide-y-0',

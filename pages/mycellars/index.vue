@@ -71,7 +71,7 @@
 
     <div v-for="mycellar in mycellars" :key="mycellar.id" class="flex flex-row">
       <NuxtLink key="{mycellar.id}" :to="`/mycellars/${mycellar.id}`" class="w-full">
-        <UCard :ui="{ base: 'grow border-2 border-accent text-base-100', background: 'bg-accent', shadow: 'shadow-lg', ring: '', divide: '' }">
+        <UCard :ui="{ base: 'grow border-2 border-accent text-base-100', background: 'bg-keppel-500 dark:bg-keppel-500', shadow: 'shadow-lg', ring: '', divide: '' }">
           <template #header>
             <div class="flex flex-row justify-between">
               <p class="uppercase text-2xl tracking-wide text-white">{{ mycellar.name }}</p>
