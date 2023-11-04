@@ -4,6 +4,18 @@
   const { data: mycellar } = await $client.mycellars.getById.useQuery({
     mycellar_id: route.params.id.toString()
   });
+
+  const mappedBottleData = mycellar.value.mycellar.my_bottles.map(item => {
+    return item;
+  })
+
+  // const notesStore = useNotesStore();
+  // const { mycellars } = storeToRefs(notesStore); // ensure the notes list is reactive
+  // const bottles = ref();
+  // async function addBottles() {
+  //   await notesStore.addBottles(bottles.value);
+  //   bottles.value = '';
+  // }
 </script>
 <template>
   <Sidebar />
@@ -11,5 +23,20 @@
     <div class="prose lg:prose-xl m-5">
       <h1 class="text-base-100 font-light uppercase">{{ mycellar?.mycellar.name }}</h1>
     </div>
+
+    <UTable :rows="mappedBottleData" />
+
+    <!-- <textarea
+        v-model="bottles"
+        type="text"
+        class="w-full rounded-l-md py-2 px-4 border-gray-400 border-2 focus:outline-none focus:border-blue-500"
+        rows="5"
+        placeholder="Add a note..." />
+      <button
+        @click.prevent="addBottles()"
+        type="button"
+        class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
+        Add
+      </button> -->
   </UContainer>
 </template>

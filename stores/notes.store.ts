@@ -39,6 +39,14 @@ export const useNotesStore = defineStore('notes', () => {
     }
   }
 
+  async function addBottles(bottles: JSONArray) {
+    const { $client } = useNuxtApp();
+    const { mybottles } = await $client.mycellars.addBottles.mutate({ bottles });
+    if (mybottles) {
+      _mycellars.value.push(mybottles)
+    }
+  }
+
   // async function generateAINoteFromPrompt(user_prompt: string) {
   //   const { $client } = useNuxtApp();
   //   const { noteText } = await $client.notes.generateAINoteFromPrompt.query({
@@ -57,6 +65,7 @@ export const useNotesStore = defineStore('notes', () => {
     fetchNotesForCurrentUser,
     createNote,
     deleteNote,
+    addBottles,
     // generateAINoteFromPrompt
   };
 });

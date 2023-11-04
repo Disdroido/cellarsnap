@@ -61,14 +61,6 @@
           class="px-4 py-2 text-white bg-blue-600 rounded-md hover:bg-blue-700 focus:outline-none focus:ring-2 focus:ring-blue-600 focus:ring-opacity-50">
           Add
         </button>
-        <button
-          v-if="activeMembership.account.features.includes('SPECIAL_FEATURE')"
-          @click.prevent="genNote()"
-          type="button"
-          class="px-4 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50">
-          Gen
-          <Icon name="mdi:magic" class="h-6 w-6" />
-        </button>
       </div>
     </div>
 

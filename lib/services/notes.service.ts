@@ -17,7 +17,7 @@ export default class NotesService {
     return prisma_client.myCellars.findMany({ where: { account_id } });
   }
 
-  async createNote(account_id: string, name: string) {
+  async createNote(account_id: string, name: string, bottles: JSONArray) {
     const account = await prisma_client.account.findFirstOrThrow({
       where: { id: account_id },
       include: { mycellars: true }
@@ -29,15 +29,30 @@ export default class NotesService {
       );
     }
 
-    return prisma_client.myCellars.create({ data: { account_id, name } });
+    return prisma_client.myCellars.create({ data: { account_id, name, bottles } });
   }
 
-  async updateNote(id: string, name: string) {
-    return prisma_client.myCellars.update({ where: { id }, data: { name } });
+  async updateNote(id: string, name: string, bottles: JSONArray) {
+    return prisma_client.myCellars.update({ where: { id }, data: { name, bottles } });
   }
 
   async deleteNote(id: string) {
     return prisma_client.myCellars.delete({ where: { id } });
+  }
+
+  async addBottles(account_id: string, bottles: JSONArray) {
+    const account = await prisma_client.account.findFirstOrThrow({
+      where: { id: account_id },
+      include: { mycellars: true }
+    });
+
+    // if (account.mycellars.bottles.length >= account.max_bottles) {
+    //   throw new AccountLimitError(
+    //     'Note Limit reached, no new notes can be added'
+    //   );
+    // }
+
+    return prisma_client.myCellars.create({ data: { account_id, bottles } });
   }
 
   async generateAINoteFromPrompt(userPrompt: string, account_id: string) {

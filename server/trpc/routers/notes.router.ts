@@ -50,6 +50,17 @@ export const notesRouter = router({
         mycellar
       };
     }),
+  // addBottles: readWriteProcedure
+  //   .input(z.object({ bottles: z.JSONArray() }))
+  //   .mutation(async ({ ctx, input }) => {
+  //     const notesService = new NotesService();
+  //     const mybottles = ctx.activeAccountId
+  //       ? await notesService.addBottles(ctx.activeAccountId, input.bottles)
+  //       : null;
+  //     return {
+  //       mybottles
+  //     };
+  //   }),
   generateAINoteFromPrompt: readWriteProcedure
     .use(accountHasSpecialFeature)
     .input(z.object({ user_prompt: z.string() }))
