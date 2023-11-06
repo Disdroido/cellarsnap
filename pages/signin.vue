@@ -50,7 +50,7 @@
   });
 </script>
 <template>
-  <div class="flex flex-col items-center justify-center h-screen bg-gray-100">
+  <div class="flex flex-col items-center justify-center h-screen bg-mine-shaft-900">
     <div class="w-full max-w-md p-6 space-y-6 bg-white rounded-lg shadow-lg">
       <h1 class="text-3xl font-bold text-center">Sign in</h1>
       <form @submit.prevent="handleStandardSignin" class="space-y-4">
