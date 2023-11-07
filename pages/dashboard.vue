@@ -33,11 +33,10 @@
   <Sidebar />
   
   <UContainer :ui="{ base: 'md:ml-[250px] 2xl:mx-auto' }">
-    <div class="text-center mb-12">
-      <h2
-        class="text-4xl font-extrabold tracking-tight text-gray-900 sm:text-5xl md:text-6xl mb-4">
-        Notes Dashboard
-      </h2>
+    <div class="prose lg:prose-xl m-5">
+      <h1 class="uppercase font-light">
+        Dashboard
+      </h1>
     </div>
 
     <div

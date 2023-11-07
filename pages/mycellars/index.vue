@@ -35,7 +35,7 @@
 
     <div v-for="mycellar in mycellars" :key="mycellar.id" class="flex flex-row">
       <NuxtLink key="{mycellar.id}" :to="`/mycellars/${mycellar.id}`" class="w-full">
-        <UCard :ui="{ base: 'grow text-base-100', background: 'bg-mine-shaft-900 dark:bg-mine-shaft-900', shadow: 'shadow-lg', ring: '', divide: '' }">
+        <UCard :ui="{ base: 'grow text-base-100', background: 'bg-bunker-900 dark:bg-bunker-900', shadow: 'shadow-lg', ring: '', divide: '' }">
           <template #header>
             <div class="flex flex-row justify-between">
               <p class="uppercase text-2xl tracking-wide text-white">{{ mycellar.name }}</p>
@@ -46,7 +46,7 @@
                   (activeMembership.access === ACCOUNT_ACCESS.ADMIN ||
                     activeMembership.access === ACCOUNT_ACCESS.OWNER)
                 "
-                class="bg-base-100 hover:bg-cardinal-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue duration-200">
+                class="bg-cardinal-700 hover:bg-cardinal-800 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue duration-200">
                 Delete
               </button>
             </div>

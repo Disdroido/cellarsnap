@@ -46,12 +46,13 @@
     if (user.value) {
       await accountStore.init();
       navigateTo('/dashboard', { replace: true });
+      router.push('/dashboard');
     }
   });
 </script>
 <template>
-  <div class="flex flex-col items-center justify-center h-screen bg-mine-shaft-900">
-    <div class="w-full max-w-md p-6 space-y-6 bg-white rounded-lg shadow-lg">
+  <div class="flex flex-col items-center justify-center h-screen bg-bunker-950">
+    <div class="w-full max-w-md p-6 space-y-6 bg-bunker-900 rounded-lg shadow-lg">
       <h1 class="text-3xl font-bold text-center">Sign in</h1>
       <form @submit.prevent="handleStandardSignin" class="space-y-4">
         <div>
@@ -60,7 +61,7 @@
             v-model="email"
             id="email"
             type="email"
-            class="w-full p-2 border border-gray-400 rounded-md"
+            class="w-full p-2 border border-gray-400 rounded-md bg-bunker-900"
             placeholder="Enter your email"
             required />
         </div>
@@ -70,7 +71,7 @@
             v-model="password"
             id="password"
             type="password"
-            class="w-full p-2 border border-gray-400 rounded-md"
+            class="w-full p-2 border border-gray-400 rounded-md bg-bunker-900"
             placeholder="Enter your password"
             required />
         </div>

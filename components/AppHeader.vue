@@ -4,7 +4,7 @@
 </script>
 
 <template>
-  <div class="navbar bg-base-100 h-20">
+  <div class="navbar bg-bunker-950 h-20 z-10">
     <Notifications />
 
     <div class="flex-1">

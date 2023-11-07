@@ -5,12 +5,12 @@
 
 <template>
   <div>
-    <div class="hidden md:max-w-[250px] 2xl:max-w-[280px] fixed inset-0 md:flex bg-base-100">
+    <div class="hidden md:max-w-[250px] 2xl:max-w-[280px] fixed inset-0 md:flex bg-bunker-900 z-20">
       <UCard
         class="flex flex-col flex-1"
         :ui="{
           body: { base: 'flex-1', padding: 'sm:p-2' },
-          background: 'bg-base-100 dark:bg-base-100',
+          background: 'bg-bunker-900 dark:bg-bunker-900',
           rounded: 'rounded-none',
           ring: '',
           divide: 'divide-y-0',

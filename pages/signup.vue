@@ -24,7 +24,7 @@
         }
       });
       const { data: existingUser } = await supabase.from('users').select().eq('email', email.value);
-      if (existingUser.length === 0) {
+      if (existingUser === null) {
         const { data, error } = await supabase.from('users').insert({
           name: username.value,
           email: email.value
