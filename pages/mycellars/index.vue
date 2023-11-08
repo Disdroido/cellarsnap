@@ -1,6 +1,7 @@
 <script setup lang="ts">
   import { storeToRefs } from 'pinia';
   import { ACCOUNT_ACCESS } from '~~/prisma/account-access-enum';
+  import { Chart, registerables } from 'chart.js';
 
   definePageMeta({
     middleware: ['auth']
@@ -22,7 +23,43 @@
   //     newNoteText.value
   //   );
   //   newNoteText.value = genNoteText;
-  // }
+// }
+
+  onMounted(() => {
+    Chart.register(...registerables);
+    const ctx = document.getElementById('vinoChart').getContext('2d');
+    new Chart(ctx, {
+      type: 'doughnut',
+      data: {
+        labels: ['Used Vino', 'Total Vino'],
+        datasets: [{
+          data: [12, 50],
+          backgroundColor: [
+            '#21b8a6',
+            '#b82133'
+          ],
+          borderColor: [
+            '#ebfaf2',
+            '#ebfaf2'
+          ],
+          borderWidth: 0,
+        }]
+      },
+      options: {
+        animation: {
+          animateScale: false,
+          animateRotate: true
+        },
+        plugins: {
+          legend: {
+            labels: {
+              color: '#ebfaf2'
+            }
+          }
+        }
+      }
+    });
+  });
 </script>
 <template>
   <Sidebar />
@@ -74,7 +111,10 @@
             <!-- VINO AMOUNT OUT OF MEMBERSHIP AMOUNT -->
             <div class="prose lg:prose-xl 2xl:w-1/4 shadow-xl border border-cardinal-700 px-5 py-3 rounded-lg text-white">
               <h6>VINO AMOUNT</h6>
-              <div class="h-32">
+              <div class="h-">
+                <div class="chart-container">
+                  <canvas id="vinoChart"></canvas>
+                </div>
               </div>
             </div>
           </div>
