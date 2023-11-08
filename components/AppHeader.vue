@@ -14,15 +14,15 @@
       </div>
       <div class="flex flex-1 flex-row justify-end justify-items-end items-center gap-4 md:gap-0">
         <ul class="menu menu-horizontal px-3 md:flex gap-3 justify-end hidden">
-          <li v-if="user"><NuxtLink to="/dashboard">Dashboard</NuxtLink></li>
-          <li><NuxtLink to="/pricing">Pricing</NuxtLink></li>
-          <li v-if="!user"><NuxtLink to="/signin">Sign In</NuxtLink></li>
-          <li v-if="!user"><NuxtLink to="/signup">Start for free</NuxtLink></li>
+          <li v-if="user"><NuxtLink to="/dashboard" class="hover:text-tawny-port-600 hover:bg-transparent">Dashboard</NuxtLink></li>
+          <li><NuxtLink to="/pricing" class="hover:text-tawny-port-600 hover:bg-transparent">Pricing</NuxtLink></li>
+          <li v-if="!user"><NuxtLink to="/signin" class="hover:text-tawny-port-600 hover:bg-transparent">Sign In</NuxtLink></li>
+          <li v-if="!user"><NuxtLink to="/signup" class="hover:text-tawny-port-600 hover:bg-transparent">Start for free</NuxtLink></li>
         </ul>
         <UserAccount v-if="user" :user="user" />
         <button @click="navigationOpen = true" class="md:hidden flex flex-col gap-[6px] h-7 w-7 text-[#ebfaf2] justify-center">
           <span class="w-7 h-0.5 text-[#ebfaf2] bg-current transform duration-150"></span>
-          <span class="w-5 h-0.5 text-[#ebfaf2] bg-current hover:w-7 hover:text-tawny-port-900 transform duration-150"></span>
+          <span class="w-5 h-0.5 text-[#ebfaf2] bg-current hover:w-7 hover:text-tawny-port-600 transform duration-150"></span>
           <span class="w-7 h-0.5 text-[#ebfaf2] bg-current transform duration-150"></span>
         </button>
       </div>
@@ -73,7 +73,7 @@
         <NuxtLink to="/pricing" 
           class="w-full shadow-lg text-center rounded-md py-3 text-white border-2 border-tawny-port-900 hover:bg-tawny-port-900 duration-200" 
           :class="{
-            'bg-tawny-port-900': $route.path === '/mycellars'
+            'bg-tawny-port-900': $route.path === '/pricing'
           }"
           @click="navigationOpen = false"
           >Pricing
@@ -82,16 +82,13 @@
           <NuxtLink to="/signin" 
             class="w-full shadow-lg text-center rounded-md py-3 text-white border-2 border-tawny-port-900 hover:bg-tawny-port-900 duration-200" 
             :class="{
-              'bg-tawny-port-900': $route.path === '/mycellars'
+              'bg-tawny-port-900': $route.path === '/signin'
             }"
             v-if="!user" @click="navigationOpen = false"
             >Sign In
           </NuxtLink>
           <NuxtLink to="/signup" 
-            class="w-full shadow-lg text-center rounded-md py-3 text-white bg-tawny-port-900 hover:bg-tawny-port-900 duration-200" 
-            :class="{
-              'bg-[#B82133]': $route.path === '/mycellars'
-            }"
+            class="w-full shadow-lg text-center rounded-md py-3 text-white bg-tawny-port-900 hover:bg-tawny-port-900 duration-200"
             v-if="!user" @click="navigationOpen = false"
             >Start for free
           </NuxtLink>
