@@ -36,7 +36,7 @@
           data: [12, 50],
           backgroundColor: [
             '#21b8a6',
-            '#b82133'
+            '#6f1b48'
           ],
           borderColor: [
             '#ebfaf2',

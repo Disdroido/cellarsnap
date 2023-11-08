@@ -32,7 +32,7 @@
 <template>
   <Sidebar />
   
-  <UContainer :ui="{ base: 'md:ml-[250px] 2xl:mx-auto' }">
+  <UContainer :ui="{ base: 'md:ml-[280px] 2xl:mx-auto' }">
     <div class="prose lg:prose-xl m-5">
       <h1 class="uppercase font-light">
         Dashboard

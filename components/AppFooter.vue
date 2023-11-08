@@ -1,5 +1,5 @@
 <template>
-  <div class="z-50 bottom-0 p-4 bg-base-200">
+  <div class="z-50 bottom-0 p-4 bg-bunker-950">
     <NuxtLink to="/terms">Terms Of Service</NuxtLink>
     <span class="px-2">|</span>
     <NuxtLink to="/privacy">Privacy</NuxtLink>
