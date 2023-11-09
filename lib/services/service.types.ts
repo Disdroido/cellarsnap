@@ -1,20 +1,26 @@
 import { Prisma } from '@prisma/client';
 
-export const membershipWithAccount = Prisma.validator<Prisma.MembershipArgs>()({
-  include: { account: true }
-});
+export const membershipWithAccount = Prisma.validator<Prisma.MembershipInclude>()({});
 export type MembershipWithAccount = Prisma.MembershipGetPayload<
   typeof membershipWithAccount
 >;
 
-export const membershipWithUser = Prisma.validator<Prisma.MembershipArgs>()({
-  include: { user: true }
-});
+export const membershipWithUser = Prisma.validator<Prisma.MembershipInclude>()({});
 export type MembershipWithUser = Prisma.MembershipGetPayload<
   typeof membershipWithUser
 >;
 
-export const fullDBUser = Prisma.validator<Prisma.UserArgs>()({
+
+type UserInclude = Prisma.UserInclude & {
+  include?: {
+    memberships?: {
+      include?: {
+        account?: boolean
+      }
+    }
+  };
+};
+export const fullDBUser = Prisma.validator<UserInclude>()({
   include: {
     memberships: {
       include: {
@@ -25,7 +31,16 @@ export const fullDBUser = Prisma.validator<Prisma.UserArgs>()({
 });
 export type FullDBUser = Prisma.UserGetPayload<typeof fullDBUser>; //TODO - I wonder if this could be replaced by just user level info
 
-export const accountWithMembers = Prisma.validator<Prisma.AccountArgs>()({
+type AccountInclude = Prisma.AccountInclude & {
+  include?: {
+    members?: {
+      include?: {
+        user?: boolean;
+      };
+    };
+  };
+};
+export const accountWithMembers = Prisma.validator<AccountInclude>()({
   include: {
     members: {
       include: {

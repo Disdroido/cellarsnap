@@ -17,7 +17,7 @@ export default class NotesService {
     return prisma_client.myCellars.findMany({ where: { account_id } });
   }
 
-  async createNote(account_id: string, name: string, bottles: JSONArray) {
+  async createNote(account_id: string, name: string) {
     const account = await prisma_client.account.findFirstOrThrow({
       where: { id: account_id },
       include: { mycellars: true }
@@ -29,11 +29,11 @@ export default class NotesService {
       );
     }
 
-    return prisma_client.myCellars.create({ data: { account_id, name, bottles } });
+    return prisma_client.myCellars.create({ data: { account_id, name } });
   }
 
-  async updateNote(id: string, name: string, bottles: JSONArray) {
-    return prisma_client.myCellars.update({ where: { id }, data: { name, bottles } });
+  async updateNote(id: string, name: string) {
+    return prisma_client.myCellars.update({ where: { id }, data: { name } });
   }
 
   async deleteNote(id: string) {
