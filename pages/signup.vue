@@ -114,14 +114,14 @@
         </p>
       </form>
       <p class="text-center">or</p>
-      <button
+      <!-- <button
         @click="supabase.auth.signInWithOAuth({ provider: 'google' })"
         class="w-full py-2 text-white bg-red-600 rounded-md hover:bg-red-700">
         <span class="flex items-center justify-center space-x-2">
           <Icon name="fa-brands:google" class="w-5 h-5" />
           <span>Sign up with Google</span>
         </span>
-      </button>
+      </button> -->
       <p class="mt-4 text-xs text-center text-gray-500">
         By proceeding, I agree to the
         <NuxtLink to="/privacy">Privacy Statement</NuxtLink> and
