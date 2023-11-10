@@ -17,12 +17,12 @@
     newNoteText.value = '';
   }
 
-  async function genNote() {
-    const genNoteText = await notesStore.generateAINoteFromPrompt(
-      newNoteText.value
-    );
-    newNoteText.value = genNoteText;
-  }
+  // async function genNote() {
+  //   const genNoteText = await notesStore.generateAINoteFromPrompt(
+  //     newNoteText.value
+  //   );
+  //   newNoteText.value = genNoteText;
+  // }
 
   onMounted(async () => {
     await accountStore.init();
