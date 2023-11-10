@@ -11,7 +11,7 @@
     if (accountStore) {
       accountStore.signout();
     }
-    navigateTo('/', { replace: true });
+    // navigateTo('/', { replace: true });
   }
 </script>
 <template>
