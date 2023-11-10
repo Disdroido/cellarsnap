@@ -12,6 +12,7 @@
       accountStore.signout();
     }
     navigateTo('/', { replace: true });
+    router.push('/dashboard');
   }
 </script>
 <template>
