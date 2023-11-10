@@ -83,8 +83,7 @@ export default class AccountService {
           current_period_ends,
           plan_id: paid_plan.id,
           features: paid_plan.features,
-          max_cellars: paid_plan.max_cellars,
-          max_bottles: paid_plan.max_bottles,
+          max_notes: paid_plan.max_notes,
           max_members: paid_plan.max_members,
           plan_name: paid_plan.name,
           ai_gen_max_pm: paid_plan.ai_gen_max_pm,
@@ -189,7 +188,7 @@ export default class AccountService {
     });
   }
 
-  async changeAccountPlan(account_id: string, plan_id: string) {
+  async changeAccountPlan(account_id: string, plan_id: number) {
     const plan = await prisma_client.plan.findFirstOrThrow({
       where: { id: plan_id }
     });
@@ -198,8 +197,7 @@ export default class AccountService {
       data: {
         plan_id: plan_id,
         features: plan.features,
-        max_cellars: plan.max_cellars,
-        max_bottles: plan.max_bottles
+        max_notes: plan.max_notes
       }
     });
   }

@@ -22,7 +22,7 @@ export const accountRouter = router({
   }),
   getActiveAccountId: publicProcedure.query(({ ctx }) => {
     return {
-      activeAccountId: String(ctx.activeAccountId)
+      activeAccountId: ctx.activeAccountId
     };
   }),
   changeActiveAccount: protectedProcedure
@@ -83,7 +83,7 @@ export const accountRouter = router({
       const accountService = new AccountService();
       const membership: MembershipWithAccount =
         await accountService.joinUserToAccount(
-          String(input.user_id),
+          input.user_id,
           input.account_id,
           true
         );

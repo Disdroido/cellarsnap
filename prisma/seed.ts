@@ -7,8 +7,6 @@ async function main() {
     create: {
       name: 'Baby Vino',
       features: ['50 Vino Bottles', '1 Cellar', '1 Cellar Members'],
-      max_cellars: 1,
-      max_bottles: 50,
       max_members: 1,
       ai_gen_max_pm: 7
     }
@@ -19,8 +17,6 @@ async function main() {
     create: {
       name: 'Vino',
       features: ['100 Vino Bottles', '1 Cellar', '2 Cellar Members', 'SPECIAL_FEATURE'],
-      max_cellars: 1,
-      max_bottles: 100,
       max_members: 2,
       ai_gen_max_pm: 50,
       stripe_product_id: 'prod_OQkyHD9QCM0lHP'
@@ -36,8 +32,6 @@ async function main() {
         '5 Cellars',
         '20 Cellar Members'
       ],
-      max_cellars: 5,
-      max_bottles: 1000000,
       max_members: 20,
       ai_gen_max_pm: 500,
       stripe_product_id: 'prod_OQkyv49OJpiSsR'

@@ -25,7 +25,7 @@ export default class AuthService {
 
   async createUser(
     supabase_uid: string,
-    name: string,
+    display_name: string,
     email: string
   ): Promise<FullDBUser | null> {
     const trialPlan = await prisma_client.plan.findFirstOrThrow({
@@ -38,21 +38,20 @@ export default class AuthService {
     return prisma_client.user.create({
       data: {
         supabase_uid: supabase_uid,
-        name: name,
+        display_name: display_name,
         email: email,
         memberships: {
           create: {
             account: {
               create: {
-                name: name,
+                name: display_name,
                 current_period_ends: UtilService.addMonths(
                   new Date(),
                   config.initialPlanActiveMonths
                 ),
                 plan_id: trialPlan.id,
                 features: trialPlan.features,
-                max_cellars: trialPlan.max_cellars,
-                max_bottles: trialPlan.max_bottles,
+                max_notes: trialPlan.max_notes,
                 max_members: trialPlan.max_members,
                 plan_name: trialPlan.name,
                 join_password: join_password

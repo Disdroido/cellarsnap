@@ -1,6 +1,5 @@
-import { MyCellars } from '.prisma/client';
+import { Note } from '.prisma/client';
 import { defineStore, storeToRefs } from 'pinia';
-import { JSONArray } from 'superjson/dist/types';
 import { Ref } from 'vue';
 
 /*
@@ -13,47 +12,39 @@ export const useNotesStore = defineStore('notes', () => {
   const accountStore = useAccountStore();
   const { activeAccountId } = storeToRefs(accountStore);
 
-  let _mycellars: Ref<MyCellars[]> = ref([]);
+  let _notes: Ref<Note[]> = ref([]);
 
   async function fetchNotesForCurrentUser() {
     const { $client } = useNuxtApp();
-    const { mycellars } = await $client.mycellars.getForActiveAccount.query();
-    if (mycellars) {
-      _mycellars.value = mycellars;
+    const { notes } = await $client.notes.getForActiveAccount.query();
+    if (notes) {
+      _notes.value = notes;
     }
   }
 
-  async function createNote(name: string) {
+  async function createNote(note_text: string) {
     const { $client } = useNuxtApp();
-    const { mycellar } = await $client.mycellars.createNote.mutate({ name });
-    if (mycellar) {
-      _mycellars.value.push(mycellar);
+    const { note } = await $client.notes.createNote.mutate({ note_text });
+    if (note) {
+      _notes.value.push(note);
     }
   }
 
-  async function deleteNote(mycellar_id: string) {
+  async function deleteNote(note_id: number) {
     const { $client } = useNuxtApp();
-    const { mycellar } = await $client.mycellars.deleteNote.mutate({ mycellar_id });
-    if (mycellar) {
-      _mycellars.value = _mycellars.value.filter(n => n.id !== mycellar.id);
+    const { note } = await $client.notes.deleteNote.mutate({ note_id });
+    if (note) {
+      _notes.value = _notes.value.filter(n => n.id !== note.id);
     }
   }
 
-  async function addBottles(bottles: JSONArray) {
+  async function generateAINoteFromPrompt(user_prompt: string) {
     const { $client } = useNuxtApp();
-    const { mybottles } = await $client.mycellars.addBottles.mutate({ bottles });
-    if (mybottles) {
-      _mycellars.value.push(mybottles)
-    }
+    const { noteText } = await $client.notes.generateAINoteFromPrompt.query({
+      user_prompt
+    });
+    return noteText ? noteText : '';
   }
-
-  // async function generateAINoteFromPrompt(user_prompt: string) {
-  //   const { $client } = useNuxtApp();
-  //   const { noteText } = await $client.notes.generateAINoteFromPrompt.query({
-  //     user_prompt
-  //   });
-  //   return noteText ? noteText : '';
-  // }
 
   // if the active account changes, fetch notes again (i.e dynamic.. probabl overkill)
   watch(activeAccountId, async (val, oldVal) => {
@@ -61,11 +52,10 @@ export const useNotesStore = defineStore('notes', () => {
   });
 
   return {
-    mycellars: _mycellars,
+    notes: _notes,
     fetchNotesForCurrentUser,
     createNote,
     deleteNote,
-    addBottles,
-    // generateAINoteFromPrompt
+    generateAINoteFromPrompt
   };
 });

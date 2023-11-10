@@ -11,12 +11,13 @@ datasource db {
 }
 
 model User {
-  id           String  @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id           String  @id @default(uuid())
   supabase_uid String
-  email        String
-  name         String?
+  email        String  @unique
+  display_name String?
 
   memberships Membership[]
+  MyCellars   MyCellars[]
 
   @@map("users")
 }
@@ -29,9 +30,9 @@ enum ACCOUNT_ACCESS {
 }
 
 model Membership {
-  id         String         @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  user_id    String         @db.Uuid
-  account_id String         @db.Uuid
+  id         String         @id @default(uuid())
+  user_id    String         @unique
+  account_id String         @unique
   account    Account        @relation(fields: [account_id], references: [id])
   user       User           @relation(fields: [user_id], references: [id])
   access     ACCOUNT_ACCESS @default(READ_ONLY)
@@ -42,34 +43,33 @@ model Membership {
 }
 
 model Account {
-  id                     String       @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id                     String       @id @default(uuid())
   name                   String
   current_period_ends    DateTime     @default(now())
   features               String[]
-  plan_id                String       @db.Uuid
+  plan_id                Int
   plan                   Plan         @relation(fields: [plan_id], references: [id])
   plan_name              String
   members                Membership[]
-  mycellars              MyCellars[]
-  max_cellars            Int          @default(1)
-  max_bottles            Int          @default(50)
+  notes                  Note[]
+  max_notes              Int          @default(100)
   stripe_subscription_id String?
   stripe_customer_id     String?
   max_members            Int          @default(1)
   join_password          String       @unique
   ai_gen_max_pm          Int          @default(7)
   ai_gen_count           Int          @default(0)
+  MyCellars              MyCellars[]
 
   @@map("account")
 }
 
 model Plan {
-  id                String    @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
+  id                Int       @id @default(autoincrement())
   name              String    @unique
   features          String[]
   accounts          Account[]
-  max_cellars       Int       @default(1)
-  max_bottles       Int       @default(50)
+  max_notes         Int       @default(100)
   stripe_product_id String?
   max_members       Int       @default(1)
   ai_gen_max_pm     Int       @default(7)
@@ -77,13 +77,25 @@ model Plan {
   @@map("plan")
 }
 
-model MyCellars {
-  id         String   @id @default(dbgenerated("gen_random_uuid()")) @db.Uuid
-  name       String
-  account_id String?  @db.Uuid
+model Note {
+  id         String   @id @default(uuid())
+  account_id String?
   account    Account? @relation(fields: [account_id], references: [id])
 
-  my_bottles Json[]
+  note_text String
 
-  @@map("myCellars")
+  @@map("note")
+}
+
+model MyCellars {
+  id          String  @id @default(uuid())
+  cellar_name String
+  user_id     String
+  account_id  String
+  account     Account @relation(fields: [account_id], references: [id])
+  user        User    @relation(fields: [user_id], references: [id])
+  racks       Json
+  bottles     Json
+
+  @@map("my_cellars")
 }

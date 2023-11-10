@@ -33,8 +33,8 @@ export default defineEventHandler(async event => {
       if (!dbUser && user) {
         dbUser = await authService.createUser(
           user.id,
-          user.user_metadata.name
-            ? user.user_metadata.name
+          user.user_metadata.full_name
+            ? user.user_metadata.full_name
             : 'no name supplied',
           user.email ? user.email : 'no@email.supplied'
         );

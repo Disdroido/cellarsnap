@@ -12,68 +12,57 @@ import { z } from 'zod';
 export const notesRouter = router({
   getForActiveAccount: memberProcedure.query(async ({ ctx, input }) => {
     const notesService = new NotesService();
-    const mycellars = ctx.activeAccountId
+    const notes = ctx.activeAccountId
       ? await notesService.getNotesForAccountId(ctx.activeAccountId)
       : [];
     return {
-      mycellars
+      notes
     };
   }),
   getById: publicProcedure
-    .input(z.object({ mycellar_id: z.string() }))
+    .input(z.object({ note_id: z.string() }))
     .query(async ({ ctx, input }) => {
       const notesService = new NotesService();
-      const mycellar = await notesService.getNoteById(input.mycellar_id);
+      const note = await notesService.getNoteById(input.note_id);
       return {
-        mycellar
+        note
       };
     }),
   createNote: readWriteProcedure
-    .input(z.object({ name: z.string() }))
+    .input(z.object({ note_text: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const notesService = new NotesService();
-      const mycellar = ctx.activeAccountId
-        ? await notesService.createNote(ctx.activeAccountId, input.name)
+      const note = ctx.activeAccountId
+        ? await notesService.createNote(ctx.activeAccountId, input.note_text)
         : null;
       return {
-        mycellar
+        note
       };
     }),
   deleteNote: adminProcedure
-    .input(z.object({ mycellar_id: z.string() }))
+    .input(z.object({ note_id: z.string() }))
     .mutation(async ({ ctx, input }) => {
       const notesService = new NotesService();
-      const mycellar = ctx.activeAccountId
-        ? await notesService.deleteNote(input.mycellar_id)
+      const note = ctx.activeAccountId
+        ? await notesService.deleteNote(input.note_id)
         : null;
       return {
-        mycellar
+        note
       };
     }),
-  // addBottles: readWriteProcedure
-  //   .input(z.object({ bottles: z.JSONArray() }))
-  //   .mutation(async ({ ctx, input }) => {
-  //     const notesService = new NotesService();
-  //     const mybottles = ctx.activeAccountId
-  //       ? await notesService.addBottles(ctx.activeAccountId, input.bottles)
-  //       : null;
-  //     return {
-  //       mybottles
-  //     };
-  //   }),
   generateAINoteFromPrompt: readWriteProcedure
     .use(accountHasSpecialFeature)
     .input(z.object({ user_prompt: z.string() }))
     .query(async ({ ctx, input }) => {
       const notesService = new NotesService();
-      const mybottles = ctx.activeAccountId
+      const noteText = ctx.activeAccountId
         ? await notesService.generateAINoteFromPrompt(
             input.user_prompt,
             ctx.activeAccountId
           )
         : null;
       return {
-        mybottles
+        noteText
       };
     })
 });

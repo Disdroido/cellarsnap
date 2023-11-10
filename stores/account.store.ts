@@ -39,7 +39,7 @@ export const useAccountStore = defineStore('account', {
   getters: {
     activeMembership: state =>
       state.dbUser?.memberships.find(
-        m => m.account_id == state.activeAccountId
+        m => m.account_id === state.activeAccountId
       )
   },
   actions: {
@@ -106,7 +106,7 @@ export const useAccountStore = defineStore('account', {
 
       if (membership.value && membership.value.membership?.pending === false) {
         for (const m of this.activeAccountMembers) {
-          if (m.id === String(membership_id)) {
+          if (m.id === membership_id) {
             m.pending = false;
           }
         }
@@ -121,7 +121,7 @@ export const useAccountStore = defineStore('account', {
 
       if (membership.value) {
         this.activeAccountMembers = this.activeAccountMembers.filter(
-          m => m.id !== String(membership_id)
+          m => m.id !== membership_id
         );
       }
     },
@@ -132,7 +132,7 @@ export const useAccountStore = defineStore('account', {
 
       if (membership.value) {
         this.activeAccountMembers = this.activeAccountMembers.filter(
-          m => m.id !== String(membership_id)
+          m => m.id !== membership_id
         );
       }
     },
@@ -151,10 +151,17 @@ export const useAccountStore = defineStore('account', {
       const { membership } =
         await $client.account.joinUserToAccountPending.mutate({
           account_id,
-          user_id: String(this.dbUser.id)
+          user_id: this.dbUser.id
         });
       if (membership && this.activeMembership) {
-        this.dbUser?.memberships.push(membership);
+        const newMembership = {
+          account: {
+            id: account_id,
+            name: "", // provide the name of the account
+            current_period_ends: new Date() // provide the current period ends date
+          }
+        };
+        this.dbUser?.memberships.push(newMembership, membership);
       }
     },
     async changeUserAccessWithinAccount(

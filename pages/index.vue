@@ -7,7 +7,7 @@
   });
 </script>
 <template>
-  <div class="container mx-auto md:m-5">
+  <div class="container mx-auto m-5">
     <!-- Hero section -->
     <section class="bg-gray-100 py-20">
       <div class="container mx-auto">

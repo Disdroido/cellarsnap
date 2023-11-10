@@ -1,5 +1,5 @@
 <script setup lang="ts">
-  const supabase = useSupabaseAuthClient();
+  const supabase = useSupabaseClient();
   const accountStore = useAccountStore();
 
   onMounted(async () => {
@@ -12,7 +12,6 @@
       accountStore.signout();
     }
     navigateTo('/', { replace: true });
-    router.push('/dashboard');
   }
 </script>
 <template>
