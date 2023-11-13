@@ -2,8 +2,10 @@ import { router } from '~/server/trpc/trpc';
 import { notesRouter } from './notes.router';
 import { authRouter } from './auth.router';
 import { accountRouter } from './account.router';
+import { myCellarsRouter } from './myCellars.router';
 
 export const appRouter = router({
+  myCellars: myCellarsRouter,
   notes: notesRouter,
   auth: authRouter,
   account: accountRouter

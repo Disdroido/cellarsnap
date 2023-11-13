@@ -30,7 +30,7 @@ export const useNotesStore = defineStore('notes', () => {
     }
   }
 
-  async function deleteNote(note_id: number) {
+  async function deleteNote(note_id: string) {
     const { $client } = useNuxtApp();
     const { note } = await $client.notes.deleteNote.mutate({ note_id });
     if (note) {

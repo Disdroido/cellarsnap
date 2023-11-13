@@ -15,6 +15,7 @@ model User {
   supabase_uid String
   email        String  @unique
   display_name String?
+  name         String?
 
   memberships Membership[]
   MyCellars   MyCellars[]
@@ -94,8 +95,8 @@ model MyCellars {
   account_id  String
   account     Account @relation(fields: [account_id], references: [id])
   user        User    @relation(fields: [user_id], references: [id])
-  racks       Json
-  bottles     Json
+  racks       Json?
+  bottles     Json?
 
   @@map("my_cellars")
 }

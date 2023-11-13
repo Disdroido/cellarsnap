@@ -38,7 +38,7 @@ export default class AuthService {
     return prisma_client.user.create({
       data: {
         supabase_uid: supabase_uid,
-        display_name: display_name,
+        name: display_name,
         email: email,
         memberships: {
           create: {
@@ -51,7 +51,6 @@ export default class AuthService {
                 ),
                 plan_id: trialPlan.id,
                 features: trialPlan.features,
-                max_notes: trialPlan.max_notes,
                 max_members: trialPlan.max_members,
                 plan_name: trialPlan.name,
                 join_password: join_password

@@ -1,4 +1,6 @@
 <script setup lang="ts">
+import { router } from "~/server/trpc/trpc";
+
   const user = useSupabaseUser();
   const supabase = useSupabaseClient();
 
@@ -55,7 +57,7 @@
 </script>
 <template>
   <div class="flex flex-row w-full h-screen relative">
-    <div class="absolute left-1/2 md:left-1/3 top-1/2 -translate-x-1/2 md:-translate-x-1/3 -translate-y-1/2 w-full max-w-md p-6 space-y-6 rounded-lg shadow-2xl bg-shark-900">
+    <div class="absolute left-1/2 md:left-1/3 top-1/2 -translate-x-1/2 md:-translate-x-1/3 -translate-y-1/2 w-11/12 md:w-full max-w-md p-6 space-y-6 rounded-lg shadow-2xl bg-shark-900">
       <h1 class="text-3xl font-bold text-center">Sign in</h1>
       <form @submit.prevent="handleStandardSignin" class="space-y-4">
         <div>
@@ -64,7 +66,7 @@
             v-model="email"
             id="email"
             type="email"
-            class="w-full p-2 border border-gray-400 rounded-md"
+            class="w-full p-2 border border-gray-400 rounded-md text-shark-950"
             placeholder="Enter your email"
             required />
         </div>
@@ -74,7 +76,7 @@
             v-model="password"
             id="password"
             type="password"
-            class="w-full p-2 border border-gray-400 rounded-md"
+            class="w-full p-2 border border-gray-400 rounded-md text-shark-950"
             placeholder="Enter your password"
             required />
         </div>
@@ -92,6 +94,6 @@
         </button>
       </form>
     </div>
-    <div class="flex ml-auto justify-end bg-tawny-port-900 h-full w-2/3 rounded-l-[300px]"></div>
+    <div class="flex ml-auto justify-end bg-tawny-port-900 h-full w-2/3 rounded-l-[150px] md:rounded-l-[300px]"></div>
   </div>
 </template>
