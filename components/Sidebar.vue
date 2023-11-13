@@ -18,7 +18,7 @@
         }">
         <template #header>
           <NuxtLink to="/">
-            <!-- <img src="~/assets/images/cellarsnap-logo-white-bg.png" class="w-32 h-auto mx-auto invert" /> -->
+            <img src="~/assets/images/cellarsnap-logo-top.png" class="w-48 h-auto mx-auto invert" />
           </NuxtLink>
         </template>
 

@@ -10,7 +10,9 @@
 
     <div class="flex flex-1 flex-row content-center px-5">
       <div class="flex-1">
-        <NuxtLink to="/" class="normal-case text-xl">CellarSnap</NuxtLink>
+        <NuxtLink to="/" class="">
+          <img src="~/assets/images/cellarsnap-logo.png" alt="" class="invert w-auto h-14">
+        </NuxtLink>
       </div>
       <div class="flex flex-1 flex-row justify-end justify-items-end items-center gap-4 md:gap-0">
         <ul class="menu menu-horizontal px-3 md:flex gap-3 justify-end hidden">

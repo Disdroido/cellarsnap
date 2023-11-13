@@ -1,5 +1,6 @@
 <template>
   <div class="flex flex-col min-h-screen bg-bunker-950">
+    <NuxtLoadingIndicator />
     <AppHeader v-if="$route.name !== 'signin'" />
     <div class="flex-grow">
       <main>
