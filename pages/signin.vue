@@ -1,6 +1,4 @@
 <script setup lang="ts">
-import { router } from "~/server/trpc/trpc";
-
   const user = useSupabaseUser();
   const supabase = useSupabaseClient();
 

@@ -2,6 +2,7 @@ import prisma_client from '~~/prisma/prisma.client';
 import { openai } from './openai.client';
 import { AccountLimitError } from './errors';
 import AccountService from './account.service';
+import { JsonArray } from '@prisma/client/runtime/library';
 
 export default class MyCellarsService {
   async getAllCellars() {
@@ -16,28 +17,32 @@ export default class MyCellarsService {
     return prisma_client.myCellars.findMany({ where: { account_id } });
   }
 
-  // async createNote(account_id: string, note_text: string) {
-  //   const account = await prisma_client.account.findFirstOrThrow({
-  //     where: { id: account_id },
-  //     include: { notes: true }
-  //   });
+  async createMyCellar(account_id: string, cellar_name: string, racks: JsonArray, bottles: JsonArray) {
+    if (racks === null) {
+      throw new Error('Invalid value for racks');
+    }
 
-  //   if (account.notes.length >= account.max_notes) {
-  //     throw new AccountLimitError(
-  //       'Note Limit reached, no new notes can be added'
-  //     );
-  //   }
+    const account = await prisma_client.account.findFirstOrThrow({
+      where: { id: account_id },
+      include: { MyCellars: true }
+    });
 
-  //   return prisma_client.note.create({ data: { account_id, note_text } });
-  // }
+    if (account.MyCellars.length >= account.max_notes) {
+      throw new AccountLimitError(
+        'Note Limit reached, no new notes can be added'
+      );
+    }
+
+    return prisma_client.myCellars.create({ data: { account_id, cellar_name, racks, bottles } });
+  }
 
   // async updateNote(id: string, note_text: string) {
   //   return prisma_client.note.update({ where: { id }, data: { note_text } });
   // }
 
-  // async deleteNote(id: string) {
-  //   return prisma_client.note.delete({ where: { id } });
-  // }
+  async deleteMyCellar(id: string) {
+    return prisma_client.myCellars.delete({ where: { id } });
+  }
 
   // async generateAINoteFromPrompt(userPrompt: string, account_id: string) {
   //   const accountService = new AccountService();

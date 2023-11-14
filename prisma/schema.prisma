@@ -91,12 +91,12 @@ model Note {
 model MyCellars {
   id          String  @id @default(uuid())
   cellar_name String
-  user_id     String
   account_id  String
   account     Account @relation(fields: [account_id], references: [id])
-  user        User    @relation(fields: [user_id], references: [id])
-  racks       Json?
+  racks       Json? // Make the racks field nullable by adding a question mark (?)
   bottles     Json?
+  User        User?   @relation(fields: [userId], references: [id])
+  userId      String?
 
   @@map("my_cellars")
 }
