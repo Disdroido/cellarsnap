@@ -25,17 +25,17 @@
         <div class="h-full flex flex-col gap-4">
           <NuxtLink
             to="/dashboard"
-            class="w-full shadow-lg text-center rounded-md py-3 text-white border border-[#B82133] hover:bg-[#B82133] duration-200"
+            class="w-full shadow-lg text-center rounded-md py-3 text-white border border-tawny-port-900 hover:bg-tawny-port-900 duration-200"
             :class="{
-              'bg-[#B82133]': $route.path === '/dashboard'
+              'bg-tawny-port-900': $route.path === '/dashboard'
             }"
             >Dashboard</NuxtLink
           >
           <NuxtLink
             to="/mycellars"
-            class="w-full shadow-lg text-center rounded-md py-3 text-white border border-[#B82133] hover:bg-[#B82133] duration-200"
+            class="w-full shadow-lg text-center rounded-md py-3 text-white border border-tawny-port-900 hover:bg-tawny-port-900 duration-200"
             :class="{
-              'bg-[#B82133]': $route.path === '/mycellars'
+              'bg-tawny-port-900': $route.path === '/mycellars'
             }"
             >My Cellars</NuxtLink
           >
