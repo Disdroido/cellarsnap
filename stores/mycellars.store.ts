@@ -1,5 +1,5 @@
-import { MyCellars } from '.prisma/client';
-import { JsonArray } from '@prisma/client/runtime/library';
+import type { MyCellars } from '.prisma/client';
+import type { JsonArray } from '@prisma/client/runtime/library';
 import { defineStore, storeToRefs } from 'pinia';
 
 /*
@@ -30,6 +30,14 @@ export const useMyCellarsStore = defineStore('mycellars', () => {
     }
   }
 
+  async function manageRacks(mycellar_id: string, racks: { rackId: string, rackName: string; rackRows: number; rackColumns: number; rackLocation: string; rackBottles: string }[]) {
+    const { $client } = useNuxtApp();
+    const { myCellar } = await $client.myCellars.manageRacks.mutate({ mycellar_id, racks });
+    if (myCellar) {
+      _myCellars.value.push(myCellar);
+    }
+  }
+
   async function deleteMyCellar(mycellar_id: string) {
     const { $client } = useNuxtApp();
     const { myCellar } = await $client.myCellars.deleteMyCellar.mutate({ mycellar_id });
@@ -55,6 +63,7 @@ export const useMyCellarsStore = defineStore('mycellars', () => {
     mycellars: _myCellars,
     fetchMyCellarsForCurrentUser,
     createMyCellar,
+    manageRacks,
     deleteMyCellar,
     // generateAINoteFromPrompt
   };

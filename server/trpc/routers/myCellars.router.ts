@@ -8,10 +8,10 @@ import {
   router
 } from '../trpc';
 import { z } from 'zod';
-import { JsonArray } from '@prisma/client/runtime/library';
+import type { JsonArray } from '@prisma/client/runtime/library';
 
 export const myCellarsRouter = router({
-  getForActiveAccount: memberProcedure.query(async ({ ctx, input }) => {
+  getForActiveAccount: memberProcedure.query(async ({ ctx }) => {
     const myCellarsService = new MyCellarsService();
     const myCellars = ctx.activeAccountId
       ? await myCellarsService.getMyCellarsForAccountId(ctx.activeAccountId)
@@ -22,7 +22,7 @@ export const myCellarsRouter = router({
   }),
   getById: publicProcedure
     .input(z.object({ mycellar_id: z.string() }))
-    .query(async ({ ctx, input }) => {
+    .query(async ({ input }) => {
       const myCellarsService = new MyCellarsService();
       const mycellar = await myCellarsService.getMyCellarById(input.mycellar_id);
       return {
@@ -35,6 +35,27 @@ export const myCellarsRouter = router({
       const myCellarsService = new MyCellarsService();
       const myCellar = ctx.activeAccountId && ctx.user
         ? await myCellarsService.createMyCellar(ctx.activeAccountId, input.cellar_name, input.racks as JsonArray, input.bottles as JsonArray)
+        : null;
+      return {
+        myCellar
+      };
+    }),
+    manageRacks: readWriteProcedure
+      .input(z.object({
+        mycellar_id: z.string(),
+        racks: z.array(z.object({
+          rackId: z.string(),
+          rackName: z.string(),
+          rackRows: z.number(),
+          rackColumns: z.number(),
+          rackLocation: z.string(),
+          rackBottles: z.string()
+        }))
+      }))
+    .mutation(async ({ ctx, input }) => {
+      const myCellarsService = new MyCellarsService();
+      const myCellar = ctx.activeAccountId
+        ? await myCellarsService.manageRacks(input.mycellar_id, input.racks)
         : null;
       return {
         myCellar

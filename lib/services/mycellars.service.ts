@@ -2,7 +2,16 @@ import prisma_client from '~~/prisma/prisma.client';
 import { openai } from './openai.client';
 import { AccountLimitError } from './errors';
 import AccountService from './account.service';
-import { JsonArray } from '@prisma/client/runtime/library';
+import type { JsonArray } from '@prisma/client/runtime/library';
+
+type Rack = {
+  rackId: string;
+  rackName: string;
+  rackRows: number;
+  rackColumns: number;
+  rackLocation: string;
+  rackBottles: string;
+}
 
 export default class MyCellarsService {
   async getAllCellars() {
@@ -36,9 +45,9 @@ export default class MyCellarsService {
     return prisma_client.myCellars.create({ data: { account_id, cellar_name, racks, bottles } });
   }
 
-  // async updateNote(id: string, note_text: string) {
-  //   return prisma_client.note.update({ where: { id }, data: { note_text } });
-  // }
+  async manageRacks(id: string, racks: Rack[]) {
+    return prisma_client.myCellars.update({ where: { id }, data: { racks: racks } });
+  }
 
   async deleteMyCellar(id: string) {
     return prisma_client.myCellars.delete({ where: { id } });

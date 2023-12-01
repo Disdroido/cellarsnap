@@ -93,7 +93,7 @@ model MyCellars {
   cellar_name String
   account_id  String
   account     Account @relation(fields: [account_id], references: [id])
-  racks       Json? // Make the racks field nullable by adding a question mark (?)
+  racks       Json[] // Make the racks field nullable by adding a question mark (?)
   bottles     Json?
   User        User?   @relation(fields: [userId], references: [id])
   userId      String?

@@ -63,7 +63,7 @@
         </button>
         <button
           v-if="activeMembership.account.features.includes('SPECIAL_FEATURE')"
-          @click.prevent="genNote()"
+          @click.prevent=""
           type="button"
           class="px-4 py-2 text-white bg-purple-600 rounded-md hover:bg-purple-700 focus:outline-none focus:ring-2 focus:ring-purple-600 focus:ring-opacity-50">
           Gen

@@ -26,7 +26,7 @@
     "@types/node": "^18.18.9",
     "nuxt": "^3.7.0",
     "nuxt-icon": "^0.3.3",
-    "prisma": "^5.5.2",
+    "prisma": "^5.6.0",
     "ts-node": "^10.9.1",
     "typescript": "^5.0.3"
   },
@@ -43,6 +43,7 @@
     "stripe": "^11.12.0",
     "superjson": "^1.12.2",
     "trpc-nuxt": "^0.8.0",
+    "uuid": "^9.0.1",
     "vanilla-cookieconsent": "^2.9.2",
     "vue-chartjs": "^5.2.0",
     "zod": "^3.20.2"

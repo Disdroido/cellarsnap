@@ -11,8 +11,8 @@
   const myCellarsStore = useMyCellarsStore();
   const { mycellars } = storeToRefs(myCellarsStore); // ensure the notes list is reactive
   const newCellarName = ref('');
-  const newRacks = ref([]);
-  const newBottles = ref([]);
+  const newRacks = ref();
+  const newBottles = ref();
 
   async function addMyCellar() {
     await myCellarsStore.createMyCellar(newCellarName.value, newRacks.value, newBottles.value);
@@ -29,13 +29,13 @@
 <template>
   <Sidebar />
   <UContainer :ui="{ base: 'sm:ml-[220px] md:ml-[250px] 2xl:mx-auto'}">
-    <div class="prose lg:prose-xl m-5">
+    <div class="prose lg:prose-xl my-5 mx-auto">
       <div
-          :key="myCellar.id"
-          v-for="myCellar in mycellars"
-          class="bg-white rounded-lg shadow-lg text-center px-6 py-8 md:mx-4 md:my-4">
-          <p class="text-gray-600 mb-4">{{ myCellar.cellar_name }}</p>
-          <button
+        :key="myCellar.id"
+        v-for="myCellar in mycellars"
+        class="bg-white rounded-lg shadow-lg text-center px-6 py-8 md:mx-4 md:my-4">
+        <NuxtLink :to="`/mycellars/${myCellar.id}`" class="text-gray-600 mb-4">{{ myCellar.cellar_name }}</NuxtLink>
+        <button
           @click.prevent="myCellarsStore.deleteMyCellar(myCellar.id)"
           v-if="
             activeMembership &&
@@ -45,7 +45,7 @@
           class="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline-blue">
           Delete
         </button>
-        </div>
+      </div>
     </div>
 
     <div
