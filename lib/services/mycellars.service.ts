@@ -26,7 +26,7 @@ export default class MyCellarsService {
     return prisma_client.myCellars.findMany({ where: { account_id } });
   }
 
-  async createMyCellar(account_id: string, cellar_name: string, racks: JsonArray, bottles: JsonArray) {
+  async createMyCellar(account_id: string, cellar_name: string, racks: Rack[], bottles: JsonArray) {
     if (racks === null) {
       throw new Error('Invalid value for racks');
     }
@@ -42,7 +42,7 @@ export default class MyCellarsService {
       );
     }
 
-    return prisma_client.myCellars.create({ data: { account_id, cellar_name, racks, bottles } });
+    return prisma_client.myCellars.create({ data: { account_id, cellar_name, racks: racks, bottles } });
   }
 
   async manageRacks(id: string, racks: Rack[]) {

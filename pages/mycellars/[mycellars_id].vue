@@ -4,14 +4,18 @@
   const route = useRoute();
   const { $client } = useNuxtApp();
   const myCellarsStore = useMyCellarsStore();
-const { mycellars } = storeToRefs(myCellarsStore); // ensure the notes list is reactive
-import { v4 as uuidv4 } from 'uuid';
+  const { mycellars } = storeToRefs(myCellarsStore); // ensure the notes list is reactive
+  import { v4 as uuidv4 } from 'uuid';
+
+  const addBottlesIsOpen = ref(false)
 
   const { data: mycellar } = await $client.myCellars.getById.useQuery({
     mycellar_id: route.params.mycellars_id as string
   });
 
-const racks = ref(mycellar.value.mycellar.racks);
+  const racks = ref(mycellar.value.mycellar.racks);
+  const selectedRack = ref(null);
+
   const rackId = ref(uuidv4());
   const rackName = ref('');
   const rackRows = ref(0);
@@ -29,11 +33,42 @@ const racks = ref(mycellar.value.mycellar.racks);
     rackBottles.value = '';
   };
 
+  const openAddBottles = (rackId) => {
+    addBottlesIsOpen.value = true;
+
+    // Assign the rackId to selectedRack
+    selectedRack.value = racks.value.find(r => r.rackId === rackId);
+
+    console.log(selectedRack.value)
+
+    const addBottles = (rackId, newBottle) => {
+      const rack = racks.value.find(r => r.rackId === rackId);
+      if (rack) {
+        if (!rack.rackBottles) {
+          rack.rackBottles = [];
+        }
+        rack.rackBottles.push(newBottle);
+        selectedRack.value = rack;
+      }
+    };
+  };
+
   async function saveRacks() {
   await myCellarsStore.manageRacks(
     route.params.mycellars_id as string,
     racks.value
   );
+
+  
+
+  const newBottle = ref({ name: '', year: '', type: '' });
+
+  const addBottleToRack = () => {
+    if (selectedRack.value) {
+      addBottles(selectedRack.value.rackId, newBottle.value);
+      newBottle.value = { name: '', year: '', type: '' };
+    }
+  };
 }
 </script>
 
@@ -50,6 +85,7 @@ const racks = ref(mycellar.value.mycellar.racks);
         <p>Rack Columns: {{ rack.rackColumns }}</p>
         <p>Rack Location: {{ rack.rackLocation }}</p>
         <p>Rack Bottles: {{ rack.rackBottles }}</p>
+        <UButton label="Add Bottles" @click="openAddBottles(rack.rackId)" />
       </li>
     </ul>
 
@@ -61,5 +97,29 @@ const racks = ref(mycellar.value.mycellar.racks);
     <button @click="addRack">Add Rack</button>
 
     <button @click="saveRacks">Save Racks</button>
+
+    <USlideover v-model="addBottlesIsOpen" prevent-close :ui="{ overlay: { background: 'bg-gray-800/75 dark:bg-gray-800/75' } }">
+      <UCard class="flex flex-col flex-1 rounded-none" :ui="{ body: { base: 'flex-1' }, background: 'bg-gray-900', ring: '', divide: 'divide-y divide-gray-100' }">
+        <template #header>
+          <div class="flex items-center justify-between">
+            <h3 class="text-base font-semibold leading-6 uppercase">
+              Add Vino To {{ selectedRack.rackName }}
+            </h3>
+            <UButton color="black" variant="outline" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="addBottlesIsOpen = false" />
+          </div>
+        </template>
+
+        <div class="h-full">
+          <div v-if="selectedRack">
+            <p>Rack ID: {{ selectedRack.rackId }}</p>
+            <p>Rack Name: {{ selectedRack.rackName }}</p>
+            <p>Rack Rows: {{ selectedRack.rackRows }}</p>
+            <p>Rack Columns: {{ selectedRack.rackColumns }}</p>
+            <p>Rack Location: {{ selectedRack.rackLocation }}</p>
+            <p>Rack Bottles: {{ selectedRack.rackBottles }}</p>
+          </div>
+        </div>
+      </UCard>
+    </USlideover>
   </div>
 </template>
