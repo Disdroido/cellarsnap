@@ -8,7 +8,6 @@ import {
   router
 } from '../trpc';
 import { z } from 'zod';
-import type { JsonArray } from '@prisma/client/runtime/library';
 
 export const myCellarsRouter = router({
   getForActiveAccount: memberProcedure.query(async ({ ctx }) => {
@@ -30,28 +29,35 @@ export const myCellarsRouter = router({
       };
     }),
   createMyCellar: readWriteProcedure
-    .input(z.object({ cellar_name: z.string(), racks: z.array(z.unknown()), bottles: z.array(z.unknown()) }))
+    .input(z.object({ 
+      cellar_name: z.string()
+    }))
     .mutation(async ({ ctx, input }) => {
       const myCellarsService = new MyCellarsService();
       const myCellar = ctx.activeAccountId && ctx.user
-        ? await myCellarsService.createMyCellar(ctx.activeAccountId, input.cellar_name, input.racks as JsonArray, input.bottles as JsonArray)
+        ? await myCellarsService.createMyCellar(ctx.activeAccountId, input.cellar_name)
         : null;
       return {
         myCellar
       };
     }),
-    manageRacks: readWriteProcedure
-      .input(z.object({
-        mycellar_id: z.string(),
-        racks: z.array(z.object({
-          rackId: z.string(),
-          rackName: z.string(),
-          rackRows: z.number(),
-          rackColumns: z.number(),
-          rackLocation: z.string(),
-          rackBottles: z.string()
+  manageRacks: readWriteProcedure
+    .input(z.object({
+      mycellar_id: z.string(),
+      racks: z.array(z.object({
+        rackId: z.string(),
+        rackName: z.string(),
+        rackRows: z.number(),
+        rackColumns: z.number(),
+        rackLocation: z.string(),
+        rackBottles: z.array(z.object({
+          bottleId: z.string(),
+          bottleName: z.string(),
+          bottleYear: z.number(),
+          bottleType: z.string(),
         }))
       }))
+    }))
     .mutation(async ({ ctx, input }) => {
       const myCellarsService = new MyCellarsService();
       const myCellar = ctx.activeAccountId

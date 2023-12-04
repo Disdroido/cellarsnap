@@ -22,15 +22,15 @@ export const useMyCellarsStore = defineStore('mycellars', () => {
     }
   }
 
-  async function createMyCellar(cellar_name: string, racks: JsonArray, bottles: JsonArray) {
+  async function createMyCellar(cellar_name: string) {
     const { $client } = useNuxtApp();
-    const { myCellar } = await $client.myCellars.createMyCellar.mutate({ cellar_name, racks, bottles });
+    const { myCellar } = await $client.myCellars.createMyCellar.mutate({ cellar_name });
     if (myCellar) {
       _myCellars.value.push(myCellar);
     }
   }
 
-  async function manageRacks(mycellar_id: string, racks: { rackId: string, rackName: string; rackRows: number; rackColumns: number; rackLocation: string; rackBottles: string }[]) {
+  async function manageRacks(mycellar_id: string, racks: { rackId: string, rackName: string; rackRows: number; rackColumns: number; rackLocation: string; rackBottles: { bottleId: string, bottleName: string, bottleYear: number, bottleType: string }[] }[]) {
     const { $client } = useNuxtApp();
     const { myCellar } = await $client.myCellars.manageRacks.mutate({ mycellar_id, racks });
     if (myCellar) {

@@ -11,14 +11,10 @@
   const myCellarsStore = useMyCellarsStore();
   const { mycellars } = storeToRefs(myCellarsStore); // ensure the notes list is reactive
   const newCellarName = ref('');
-  const newRacks = ref();
-  const newBottles = ref();
 
   async function addMyCellar() {
-    await myCellarsStore.createMyCellar(newCellarName.value, newRacks.value, newBottles.value);
+    await myCellarsStore.createMyCellar(newCellarName.value);
     newCellarName.value = '';
-    newRacks.value = '';
-    newBottles.value = '';
   }
 
   onMounted(async () => {
@@ -58,18 +54,6 @@
       class="w-full max-w-md mx-auto mb-3">
       <textarea
         v-model="newCellarName"
-        type="text"
-        class="w-full rounded-l-md py-2 px-4 border-gray-400 border-2 focus:outline-none focus:border-blue-500"
-        rows="5"
-        placeholder="Add a note..." />
-      <input
-        v-model="newRacks"
-        type="text"
-        class="w-full rounded-l-md py-2 px-4 border-gray-400 border-2 focus:outline-none focus:border-blue-500"
-        rows="5"
-        placeholder="Add a note..." />
-      <input
-        v-model="newBottles"
         type="text"
         class="w-full rounded-l-md py-2 px-4 border-gray-400 border-2 focus:outline-none focus:border-blue-500"
         rows="5"

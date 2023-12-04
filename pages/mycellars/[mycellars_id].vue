@@ -21,16 +21,16 @@
   const rackRows = ref(0);
   const rackColumns = ref(0);
   const rackLocation = ref('');
-  const rackBottles = ref('');
+  const rackBottles = ref([]);
 
   const addRack = () => {
-    racks.value.push({ rackId: rackId.value, rackName: rackName.value, rackRows: rackRows.value, rackColumns: rackColumns.value, rackLocation: rackLocation.value, rackBottles: rackBottles.value }); // Remove extra array brackets
+    racks.value.push({ rackId: rackId.value, rackName: rackName.value, rackRows: rackRows.value, rackColumns: rackColumns.value, rackLocation: rackLocation.value, rackBottles: [] }); // Remove extra array brackets
     rackId.value = '';
     rackName.value = '';
     rackRows.value = 0;
     rackColumns.value = 0;
     rackLocation.value = '';
-    rackBottles.value = '';
+    rackBottles.value = [];
   };
 
   const openAddBottles = (rackId) => {
@@ -38,19 +38,19 @@
 
     // Assign the rackId to selectedRack
     selectedRack.value = racks.value.find(r => r.rackId === rackId);
+  };
 
-    console.log(selectedRack.value)
-
-    const addBottles = (rackId, newBottle) => {
-      const rack = racks.value.find(r => r.rackId === rackId);
-      if (rack) {
-        if (!rack.rackBottles) {
-          rack.rackBottles = [];
-        }
-        rack.rackBottles.push(newBottle);
-        selectedRack.value = rack;
+  const newBottle = ref({ name: '', year: '', type: '' });
+  const addBottles = (rackId, newBottle) => {
+    const rack = racks.value.find(r => r.rackId === rackId);
+    if (rack) {
+      if (!rack.rackBottles) {
+        rack.rackBottles = [];
       }
-    };
+      rack.rackBottles.push(newBottle.value);
+      newBottle.value = { name: '', year: '', type: '' };
+    }
+    console.log(rack)
   };
 
   async function saveRacks() {
@@ -58,17 +58,6 @@
     route.params.mycellars_id as string,
     racks.value
   );
-
-  
-
-  const newBottle = ref({ name: '', year: '', type: '' });
-
-  const addBottleToRack = () => {
-    if (selectedRack.value) {
-      addBottles(selectedRack.value.rackId, newBottle.value);
-      newBottle.value = { name: '', year: '', type: '' };
-    }
-  };
 }
 </script>
 
@@ -117,6 +106,24 @@
             <p>Rack Columns: {{ selectedRack.rackColumns }}</p>
             <p>Rack Location: {{ selectedRack.rackLocation }}</p>
             <p>Rack Bottles: {{ selectedRack.rackBottles }}</p>
+          </div>
+
+          <div v-if="selectedRack">
+            <form @submit.prevent="addBottles(selectedRack.rackId, newBottle)">
+              <label>
+                Bottle Name:
+                <input type="text" v-model="newBottle.name" class="bg-transparent border-primary border-2" required>
+              </label>
+              <label>
+                Bottle Year:
+                <input type="text" v-model="newBottle.year" class="bg-transparent border-primary border-2" required>
+              </label>
+              <label>
+                Bottle Type:
+                <input type="text" v-model="newBottle.type" class="bg-transparent border-primary border-2" required>
+              </label>
+              <button type="submit">Add Bottle</button>
+            </form>
           </div>
         </div>
       </UCard>
