@@ -40,15 +40,16 @@
     selectedRack.value = racks.value.find(r => r.rackId === rackId);
   };
 
-  const newBottle = ref({ name: '', year: '', type: '' });
-  const addBottles = (rackId, newBottle) => {
+  const newBottle = ref({ bottleId: uuidv4(), bottleName: '', bottleYear: 0, bottleType: '' });
+  const addBottles = (rackId) => {
     const rack = racks.value.find(r => r.rackId === rackId);
     if (rack) {
       if (!rack.rackBottles) {
         rack.rackBottles = [];
       }
       rack.rackBottles.push(newBottle.value);
-      newBottle.value = { name: '', year: '', type: '' };
+      newBottle.value = { bottleId: '', bottleName: '', bottleYear: 0, bottleType: '' };
+      saveRacks();
     }
     console.log(rack)
   };
@@ -112,15 +113,15 @@
             <form @submit.prevent="addBottles(selectedRack.rackId, newBottle)">
               <label>
                 Bottle Name:
-                <input type="text" v-model="newBottle.name" class="bg-transparent border-primary border-2" required>
+                <input type="text" v-model="newBottle.bottleName" class="bg-transparent border-primary border-2" required>
               </label>
               <label>
                 Bottle Year:
-                <input type="text" v-model="newBottle.year" class="bg-transparent border-primary border-2" required>
+                <input type="text" v-model="newBottle.bottleType" class="bg-transparent border-primary border-2" required>
               </label>
               <label>
                 Bottle Type:
-                <input type="text" v-model="newBottle.type" class="bg-transparent border-primary border-2" required>
+                <input type="number" v-model="newBottle.bottleYear" class="bg-transparent border-primary border-2" required>
               </label>
               <button type="submit">Add Bottle</button>
             </form>
