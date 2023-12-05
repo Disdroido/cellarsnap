@@ -2,7 +2,14 @@ import prisma_client from '~~/prisma/prisma.client';
 import { openai } from './openai.client';
 import { AccountLimitError } from './errors';
 import AccountService from './account.service';
-import type { JsonArray } from '@prisma/client/runtime/library';
+
+type Bottles = {
+  bottleId: string;
+  bottleName: string;
+  bottleType: string;
+  bottleYear: number;
+  bottleAmount: number;
+}
 
 type Rack = {
   rackId: string;
@@ -10,7 +17,7 @@ type Rack = {
   rackRows: number;
   rackColumns: number;
   rackLocation: string;
-  rackBottles: string;
+  rackBottles: Bottles[];
 }
 
 export default class MyCellarsService {

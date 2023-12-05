@@ -6,8 +6,6 @@
 
 <template>
   <div class="navbar bg-bunker-950 h-20 z-10 sticky top-0 left-0 right-0">
-    <Notifications />
-
     <div class="flex flex-1 flex-row content-center px-5">
       <div class="flex-1">
         <NuxtLink to="/" class="">

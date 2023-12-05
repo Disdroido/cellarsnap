@@ -64,7 +64,7 @@
             v-model="email"
             id="email"
             type="email"
-            class="w-full p-2 border border-gray-400 rounded-md text-shark-950"
+            class="w-full p-2 border border-gray-400 rounded-md"
             placeholder="Enter your email"
             required />
         </div>
@@ -74,7 +74,7 @@
             v-model="password"
             id="password"
             type="password"
-            class="w-full p-2 border border-gray-400 rounded-md text-shark-950"
+            class="w-full p-2 border border-gray-400 rounded-md"
             placeholder="Enter your password"
             required />
         </div>
@@ -87,8 +87,8 @@
         <button
           :disabled="loading || password === ''"
           type="submit"
-          class="w-full py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
-          Sign in
+          class="flex flex-row gap-2 text-center justify-center w-full py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
+          Sign in <svg v-if="loading === true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="0" y="0" width="24" height="24" fill="none" stroke="none" /><path fill="none" stroke="currentColor" stroke-dasharray="15" stroke-dashoffset="15" stroke-linecap="round" stroke-width="2" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></svg>
         </button>
       </form>
     </div>

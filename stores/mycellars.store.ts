@@ -30,7 +30,7 @@ export const useMyCellarsStore = defineStore('mycellars', () => {
     }
   }
 
-  async function manageRacks(mycellar_id: string, racks: { rackId: string, rackName: string; rackRows: number; rackColumns: number; rackLocation: string; rackBottles: { bottleId: string, bottleName: string, bottleYear: number, bottleType: string }[] }[]) {
+  async function manageRacks(mycellar_id: string, racks: { rackId: string, rackName: string; rackRows: number; rackColumns: number; rackLocation: string; rackBottles: { bottleId: string, bottleName: string, bottleYear: number, bottleType: string, bottleAmount: number }[] }[]) {
     const { $client } = useNuxtApp();
     const { myCellar } = await $client.myCellars.manageRacks.mutate({ mycellar_id, racks });
     if (myCellar) {

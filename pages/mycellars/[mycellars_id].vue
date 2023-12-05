@@ -40,7 +40,7 @@
     selectedRack.value = racks.value.find(r => r.rackId === rackId);
   };
 
-  const newBottle = ref({ bottleId: uuidv4(), bottleName: '', bottleYear: 0, bottleType: '' });
+  const newBottle = ref({ bottleId: uuidv4(), bottleName: '', bottleYear: 0, bottleType: '', bottleAmount: 0 });
   const addBottles = (rackId) => {
     const rack = racks.value.find(r => r.rackId === rackId);
     if (rack) {
@@ -48,7 +48,7 @@
         rack.rackBottles = [];
       }
       rack.rackBottles.push(newBottle.value);
-      newBottle.value = { bottleId: '', bottleName: '', bottleYear: 0, bottleType: '' };
+      newBottle.value = { bottleId: '', bottleName: '', bottleYear: 0, bottleType: '', bottleAmount: 0 };
       saveRacks();
     }
     console.log(rack)
@@ -101,12 +101,13 @@
 
         <div class="h-full">
           <div v-if="selectedRack">
-            <p>Rack ID: {{ selectedRack.rackId }}</p>
-            <p>Rack Name: {{ selectedRack.rackName }}</p>
-            <p>Rack Rows: {{ selectedRack.rackRows }}</p>
-            <p>Rack Columns: {{ selectedRack.rackColumns }}</p>
-            <p>Rack Location: {{ selectedRack.rackLocation }}</p>
-            <p>Rack Bottles: {{ selectedRack.rackBottles }}</p>
+            <div v-for="bottles in selectedRack.rackBottles" :key="bottleId">
+              <p>{{ bottles.bottleName }}</p>
+              <p>{{ bottles.bottleType }}</p>
+              <p>{{ bottles.bottleYear }}</p>
+              <p v-if="bottles.bottleAmount != 0 || bottles.bottleAmount === ''">{{ bottles.bottleAmount }}</p>
+              <p v-else="">0</p>
+            </div>
           </div>
 
           <div v-if="selectedRack">
@@ -116,12 +117,16 @@
                 <input type="text" v-model="newBottle.bottleName" class="bg-transparent border-primary border-2" required>
               </label>
               <label>
-                Bottle Year:
+                Bottle Type:
                 <input type="text" v-model="newBottle.bottleType" class="bg-transparent border-primary border-2" required>
               </label>
               <label>
-                Bottle Type:
+                Bottle Year:
                 <input type="number" v-model="newBottle.bottleYear" class="bg-transparent border-primary border-2" required>
+              </label>
+              <label>
+                Bottle Amount:
+                <input type="number" v-model="newBottle.bottleAmount" class="bg-transparent border-primary border-2" required>
               </label>
               <button type="submit">Add Bottle</button>
             </form>
