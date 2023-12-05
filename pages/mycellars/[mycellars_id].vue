@@ -67,17 +67,19 @@
     <h3>Note Detail {{ route.params.mycellars_id }}</h3>
     <div class="prose lg:prose-xl m-5">{{ mycellar?.mycellar.cellar_name }}</div>
     <p>{{ racks }}</p>
-    <ul>
-      <li v-for="rack in racks" :key="rack.rackId">
-        <p>Rack ID: {{ rack.rackId }}</p>
-        <p>Rack Name: {{ rack.rackName }}</p>
+
+    <UTable :rows="racks" />
+    
+    <div class="flex flex-row flex-wrap gap-4">
+      <div class="basis-w-1/3 w-1/3 p-5 bg-slate-600" v-for="rack in racks" :key="rack.rackId">
+        <h3 class="!mt-0">Rack Name: {{ rack.rackName }}</h3>
         <p>Rack Rows: {{ rack.rackRows }}</p>
         <p>Rack Columns: {{ rack.rackColumns }}</p>
         <p>Rack Location: {{ rack.rackLocation }}</p>
         <p>Rack Bottles: {{ rack.rackBottles }}</p>
         <UButton label="Add Bottles" @click="openAddBottles(rack.rackId)" />
-      </li>
-    </ul>
+      </div>
+    </div>
 
     <input type="text" v-model="rackName" placeholder="Enter custom rack name">
     <input type="number" v-model="rackRows" placeholder="Enter rack rows">
