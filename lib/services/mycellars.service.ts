@@ -4,11 +4,11 @@ import { AccountLimitError } from './errors';
 import AccountService from './account.service';
 
 type Bottles = {
-  bottleId: string;
-  bottleName: string;
-  bottleType: string;
-  bottleYear: number;
-  bottleAmount: number;
+  bottleId: string | null;
+  bottleName: string | null;
+  bottleType: string | null;
+  bottleYear: number | null;
+  bottleAmount: number | null;
 }
 
 type Rack = {

@@ -51,11 +51,11 @@ export const myCellarsRouter = router({
         rackColumns: z.number(),
         rackLocation: z.string(),
         rackBottles: z.array(z.object({
-          bottleId: z.string(),
-          bottleName: z.string(),
-          bottleYear: z.number(),
-          bottleType: z.string(),
-          bottleAmount: z.number(),
+          bottleId: z.string().nullable(),
+          bottleName: z.string().nullable(),
+          bottleYear: z.number().nullable(),
+          bottleType: z.string().nullable(),
+          bottleAmount: z.number().nullish(),
         }))
       }))
     }))
