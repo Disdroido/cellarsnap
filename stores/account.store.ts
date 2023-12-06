@@ -158,7 +158,7 @@ export const useAccountStore = defineStore('account', {
           account: {
             id: account_id,
             name: "", // provide the name of the account
-            current_period_ends: new Date() // provide the current period ends date
+            current_period_ends: new Date().toISOString() // provide the current period ends date
           }
         };
         this.dbUser?.memberships.push(newMembership, membership);

@@ -7,7 +7,12 @@
   const { mycellars } = storeToRefs(myCellarsStore); // ensure the notes list is reactive
   import { v4 as uuidv4 } from 'uuid';
 
-  const addBottlesIsOpen = ref(false)
+  definePageMeta({
+    middleware: ['auth']
+  });
+
+  const addBottlesIsOpen = ref(false);
+  const rackModal = ref(false)
 
   const { data: mycellar } = await $client.myCellars.getById.useQuery({
     mycellar_id: route.params.mycellars_id as string
@@ -54,12 +59,56 @@
     console.log(rack)
   };
 
+  const deleteRack = (rackId) => {
+  const index = racks.value.findIndex(r => r.rackId === rackId);
+  if (index !== -1) {
+    racks.value.splice(index, 1);
+    saveRacks();
+  }
+};
+
   async function saveRacks() {
-  await myCellarsStore.manageRacks(
-    route.params.mycellars_id as string,
-    racks.value
-  );
-}
+    await myCellarsStore.manageRacks(
+      route.params.mycellars_id as string,
+      racks.value
+    );
+  }
+
+  const rackBottlesColumns = [{
+    key: 'bottleName',
+    label: 'Vino Name'
+  }, {
+    key: 'bottleType',
+    label: 'Vino Type'
+  }, {
+    key: 'bottleYear',
+    label: 'Vino Year'
+  }, {
+    key: 'bottleAmount',
+    label: 'Vino Amount'
+  }]
+
+  const q = ref('')
+
+  const openRackModal = (rackId) => {
+    rackModal.value = true;
+
+    // Assign the rackId to selectedRack
+    selectedRack.value = racks.value.find(r => r.rackId === rackId);
+
+    // Integrate filteredRows into the return statement
+    selectedRack.value.filteredBottles = computed(() => {
+      if (!q.value) {
+        return selectedRack.value.rackBottles;
+      }
+
+      return selectedRack.value.rackBottles.filter((bottle) => {
+        return Object.values(bottle).some((value) => {
+          return String(value).toLowerCase().includes(q.value.toLowerCase());
+        });
+      });
+    });
+  };
 </script>
 
 <template>
@@ -70,17 +119,44 @@
           <h1 class="">{{ mycellar?.mycellar.cellar_name }}</h1>
           <UButton :ui="{ base: 'w-full md:w-auto' }" label="Add New Rack" @click="openAddBottles(rack.rackId)" />
         </div>
-
-        <UTable :rows="racks" class="w-full" />
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
           <div class="p-5 bg-slate-600" v-for="rack in racks" :key="rack.rackId">
-            <h3 class="!mt-0 prose lg:prose-xl">Rack Name: {{ rack.rackName }}</h3>
-            <p class="prose lg:prose-xl">Rack Rows: {{ rack.rackRows }}</p>
-            <p class="prose lg:prose-xl">Rack Columns: {{ rack.rackColumns }}</p>
-            <p class="prose lg:prose-xl">Rack Location: {{ rack.rackLocation }}</p>
-            <p class="prose lg:prose-xl">Rack Bottles: {{ rack.rackBottles.length }}</p>
-            <UButton label="Add Bottles" @click="openAddBottles(rack.rackId)" />
+            <div @click="openRackModal(rack.rackId)" class="cursor-pointer">
+              <h3 class="!mt-0 prose lg:prose-xl">Rack Name: {{ rack.rackName }}</h3>
+              <p class="prose lg:prose-xl">Rack Rows: {{ rack.rackRows }}</p>
+              <p class="prose lg:prose-xl">Rack Columns: {{ rack.rackColumns }}</p>
+              <p class="prose lg:prose-xl">Rack Location: {{ rack.rackLocation }}</p>
+              <p class="prose lg:prose-xl">Rack Bottles: {{ rack.rackBottles.length }}</p>
+              <UButton label="Add Bottles" @click="openAddBottles(rack.rackId)" />
+              <UButton label="Delete Rack"  @click="deleteRack(rack.rackId)" />
+            </div>
+
+            <UModal v-model="rackModal" width :ui="{ width: 'w-screen h-screen md:h-auto sm:max-w-lg lg:max-w-4xl xl:max-w-7xl', padding: 'p-0' }">
+              <UCard
+                :ui="{
+                  base: 'h-full flex flex-col',
+                  rounded: '',
+                  divide: 'divide-y divide-gray-100 dark:divide-gray-800',
+                  body: {
+                    base: 'grow'
+                  }
+                }"
+              >
+                <template #header>
+                  <div class="flex items-center justify-between">
+                    <h3 class="text-base font-semibold leading-6 text-gray-900 dark:text-white">
+                      {{ rack.rackName.toUpperCase() }} | RACK
+                    </h3>
+                    <UButton color="gray" variant="ghost" icon="i-heroicons-x-mark-20-solid" class="-my-1" @click="rackModal = false" />
+                  </div>
+                </template>
+
+                <div class="h-full">
+                  <UTable :rows="filteredRows" :columns="rackBottlesColumns" class="w-full" />
+                </div>
+              </UCard>
+            </UModal>
           </div>
         </div>
 
