@@ -3,6 +3,7 @@
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
     "module": "esnext",
-    "types": ["node"]
+    "types": ["node"],
+    "verbatimModuleSyntax": false
   },
 }

@@ -3,9 +3,7 @@ import prisma_client from '~~/prisma/prisma.client';
 import {
   accountWithMembers,
   membershipWithAccount,
-  membershipWithUser
-} from './service.types';
-import type {
+  membershipWithUser,
   AccountWithMembers,
   MembershipWithAccount,
   MembershipWithUser

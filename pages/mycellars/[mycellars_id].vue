@@ -82,33 +82,38 @@
     label: 'Vino Type'
   }, {
     key: 'bottleYear',
-    label: 'Vino Year'
+    label: 'Vino Year',
+    sortable: true,
+    direction: 'desc'
   }, {
     key: 'bottleAmount',
-    label: 'Vino Amount'
+    label: 'Vino Amount',
+    sortable: true
   }]
 
   const q = ref('')
-
+  const modalRack = ref([]);
   const openRackModal = (rackId) => {
     rackModal.value = true;
+  
+    const rack = racks.value.find(r => r.rackId === rackId);
 
-    // Assign the rackId to selectedRack
-    selectedRack.value = racks.value.find(r => r.rackId === rackId);
-
-    // Integrate filteredRows into the return statement
-    selectedRack.value.filteredBottles = computed(() => {
-      if (!q.value) {
-        return selectedRack.value.rackBottles;
-      }
-
-      return selectedRack.value.rackBottles.filter((bottle) => {
-        return Object.values(bottle).some((value) => {
-          return String(value).toLowerCase().includes(q.value.toLowerCase());
-        });
-      });
-    });
+    modalRack.value = rack.rackBottles;
   };
+  
+  const filteredRows = computed(() => {
+    if (!q.value) {
+      return modalRack.value
+    }
+
+    return modalRack.value.filter((bottle) => {
+      return Object.values(bottle).some((value) => {
+        return String(value).toLowerCase().includes(q.value.toLowerCase())
+      }) || 
+      bottle.bottleType.toLowerCase().includes(q.value.toLowerCase()) || 
+      String(bottle.bottleYear).includes(q.value.toLowerCase())
+    })
+  })
 </script>
 
 <template>
@@ -153,6 +158,9 @@
                 </template>
 
                 <div class="h-full">
+                  <div class="flex px-3 py-3.5 border-b border-gray-200 dark:border-gray-700">
+                    <UInput v-model="q" placeholder="Filter people..." />
+                  </div>
                   <UTable :rows="filteredRows" :columns="rackBottlesColumns" class="w-full" />
                 </div>
               </UCard>

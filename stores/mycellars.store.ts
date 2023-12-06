@@ -1,5 +1,4 @@
-import type { MyCellars } from '.prisma/client';
-import type { JsonArray } from '@prisma/client/runtime/library';
+import { MyCellars } from '.prisma/client';
 import { defineStore, storeToRefs } from 'pinia';
 
 /*

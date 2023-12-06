@@ -1,4 +1,4 @@
-import type { Note } from '.prisma/client';
+import { Note } from '.prisma/client';
 import { defineStore, storeToRefs } from 'pinia';
 
 /*

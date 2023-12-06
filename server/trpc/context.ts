@@ -1,4 +1,4 @@
-import type { inferAsyncReturnType } from '@trpc/server';
+import { inferAsyncReturnType } from '@trpc/server';
 import { H3Event } from 'h3';
 
 export async function createContext(event: H3Event) {
