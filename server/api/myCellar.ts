@@ -10,7 +10,7 @@ export default defineProtectedEventHandler(async (event: H3Event) => {
     if (Array.isArray(queryParams.mycellar_id)) {
       mycellar_id = queryParams.mycellar_id[0];
     } else {
-      mycellar_id = queryParams.mycellar_id.toString();
+      mycellar_id = queryParams.mycellar_id;
     }
   }
 
