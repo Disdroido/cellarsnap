@@ -60,7 +60,7 @@ export const useMyCellarsStore = defineStore('mycellars', () => {
   // }
 
   // if the active account changes, fetch notes again (i.e dynamic.. probabl overkill)
-  watch(activeAccountId, async () => {
+  watch(activeAccountId, async (val, oldVal) => {
     await fetchMyCellarsForCurrentUser();
   });
 

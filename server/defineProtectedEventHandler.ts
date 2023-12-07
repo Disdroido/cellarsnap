@@ -1,5 +1,4 @@
-import { H3Event, eventHandler } from 'h3';
-import { EventHandler, EventHandlerRequest } from 'h3';
+import { EventHandler, EventHandlerRequest, H3Event, eventHandler } from 'h3';
 
 export const defineProtectedEventHandler = <T extends EventHandlerRequest>(
   handler: EventHandler<T>

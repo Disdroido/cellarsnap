@@ -8,9 +8,9 @@ export default defineProtectedEventHandler(async (event: H3Event) => {
   let mycellar_id: string = '';
   if (queryParams.mycellar_id) {
     if (Array.isArray(queryParams.mycellar_id)) {
-      mycellar_id = queryParams.mycellar_id[0];
+      mycellar_id = queryParams.mycellar_id[0].toString();
     } else {
-      mycellar_id = queryParams.mycellar_id;
+      mycellar_id = queryParams.mycellar_id.toString();
     }
   }
 

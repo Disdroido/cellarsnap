@@ -16,7 +16,7 @@ declare module 'h3' {
 
 export default defineEventHandler(async event => {
   if (
-    !(event.path.startsWith('/api/trpc') || event.path.startsWith('/api/note'))
+    !(event.path.startsWith('/api/trpc') || event.path.startsWith('/api/note') || event.path.startsWith('/api/myCellar'))
   ) {
     return; // only apply middleware to working routes
   }

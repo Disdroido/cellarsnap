@@ -28,23 +28,23 @@
     }
   };
 
-  // const handleGoogleSignin = async () => {
-  //   console.log('handleGoogleSignin');
-  //   try {
-  //     loading.value = true;
-  //     const { error } = await supabase.auth.signInWithOAuth({
-  //       provider: 'google',
-  //       options: {
-  //         redirectTo: `${config.public.siteRootUrl}/confirm`
-  //       }
-  //     });
-  //     if (error) throw error;
-  //   } catch (error) {
-  //     notifyStore.notify(error, NotificationType.Error);
-  //   } finally {
-  //     loading.value = false;
-  //   }
-  // };
+  const handleGoogleSignin = async () => {
+    console.log('handleGoogleSignin');
+    try {
+      loading.value = true;
+      const { error } = await supabase.auth.signInWithOAuth({
+        provider: 'google',
+        options: {
+          redirectTo: `${config.public.siteRootUrl}/confirm`
+        }
+      });
+      if (error) throw error;
+    } catch (error) {
+      notifyStore.notify(error, NotificationType.Error);
+    } finally {
+      loading.value = false;
+    }
+  };
 
   watchEffect(async () => {
     if (user.value) {
