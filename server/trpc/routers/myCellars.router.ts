@@ -10,7 +10,7 @@ import {
 import { z } from 'zod';
 
 export const myCellarsRouter = router({
-  getForActiveAccount: memberProcedure.query(async ({ ctx }) => {
+  getForActiveAccount: memberProcedure.query(async ({ ctx, input }) => {
     const myCellarsService = new MyCellarsService();
     const myCellars = ctx.activeAccountId
       ? await myCellarsService.getMyCellarsForAccountId(ctx.activeAccountId)

@@ -38,16 +38,14 @@
     rackBottles.value = [];
   };
 
-  const openAddBottles = (rackId) => {
+  const openAddBottles = (rackId: string | null) => {
     addBottlesIsOpen.value = true;
-
-    // Assign the rackId to selectedRack
-    selectedRack.value = racks.value.find(r => r.rackId === rackId);
+    selectedRack.value = racks.value.find(r => r.rackId === rackId) ?? null;
   };
 
   const newBottle = ref({ bottleId: uuidv4(), bottleName: '', bottleYear: 0, bottleType: '', bottleAmount: 0 });
-  const addBottles = (rackId) => {
-    const rack = racks.value.find(r => r.rackId === rackId);
+  const addBottles = (rackId: string | null) => {
+    const rack: { rackBottles: any[] } | null = racks.value.find(r => r.rackId === rackId);
     if (rack) {
       if (!rack.rackBottles) {
         rack.rackBottles = [];
@@ -59,7 +57,7 @@
     console.log(rack)
   };
 
-  const deleteRack = (rackId) => {
+  const deleteRack = (rackId: string | null) => {
   const index = racks.value.findIndex(r => r.rackId === rackId);
   if (index !== -1) {
     racks.value.splice(index, 1);
@@ -92,18 +90,17 @@
   }]
 
   const q = ref('')
-  const modalRack = ref([]);
-  const openRackModal = (rackId) => {
+  const modalRack = ref([] as any[]);
+  const openRackModal = (rackId: string | null) => {
     rackModal.value = true;
   
     const rack = racks.value.find(r => r.rackId === rackId);
-
-    modalRack.value = rack.rackBottles;
+    modalRack.value = rack ? rack.rackBottles : [] as any[];
   };
   
   const filteredRows = computed(() => {
     if (!q.value) {
-      return modalRack.value
+      return modalRack.value as any[];
     }
 
     return modalRack.value.filter((bottle) => {

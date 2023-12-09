@@ -15,5 +15,5 @@
   }
 </script>
 <template>
-  <a href="#" @click.prevent="signout()">Signout</a>
+  <button @click.prevent="signout()">Signout</button>
 </template>
