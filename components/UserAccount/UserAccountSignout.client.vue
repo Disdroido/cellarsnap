@@ -15,5 +15,5 @@
   }
 </script>
 <template>
-  <button @click.prevent="signout()">Signout</button>
+  <NuxtLink :to="'/'" @click.prevent="signout()">Signout</NuxtLink>
 </template>

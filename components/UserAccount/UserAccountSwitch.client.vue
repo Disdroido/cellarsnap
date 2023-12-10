@@ -12,7 +12,7 @@
 <template>
   <template v-if="dbUser?.memberships && dbUser?.memberships.length > 1">
     <li>Switch Account</li>
-    <li v-for="membership in dbUser?.memberships">
+    <li v-for="membership in dbUser?.memberships" :key="membership.id">
       <a
         v-if="membership.account_id !== activeAccountId && !membership.pending"
         href="#"

@@ -118,7 +118,7 @@
     <div class="w-full">
       <div class="p-5 w-full">
         <div class="flex flex-col md:flex-row justify-between">
-          <h1 class="">{{ mycellar?.mycellar.cellar_name }}</h1>
+          <h4 class="">{{ mycellar?.mycellar.cellar_name.toUpperCase() }}</h4>
           <UButton :ui="{ base: 'w-full md:w-auto' }" label="Add New Rack" @click="openAddBottles(rack.rackId)" />
         </div>
         
@@ -186,12 +186,12 @@
 
             <div class="h-full">
               <div v-if="selectedRack">
-                <div v-for="bottles in selectedRack.rackBottles" :key="bottleId">
+                <div v-for="bottles in selectedRack.rackBottles" :key="bottles.bottleId">
                   <p>{{ bottles.bottleName }}</p>
                   <p>{{ bottles.bottleType }}</p>
                   <p>{{ bottles.bottleYear }}</p>
                   <p v-if="bottles.bottleAmount != 0 || bottles.bottleAmount === ''">{{ bottles.bottleAmount }}</p>
-                  <p v-else="">0</p>
+                  <p v-else>0</p>
                 </div>
               </div>
 
