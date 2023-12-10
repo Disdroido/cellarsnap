@@ -60,11 +60,11 @@ export default class AccountService {
       where: { stripe_customer_id }
     });
 
-    const paid_plan = await prisma_client.plan.findFirstOrThrow({
+    const VinoMaxPlan = await prisma_client.plan.findFirstOrThrow({
       where: { stripe_product_id }
     });
 
-    if (paid_plan.id == account.plan_id) {
+    if (VinoMaxPlan.id == account.plan_id) {
       // only update sub and period info
       return await prisma_client.account.update({
         where: { id: account.id },
@@ -81,12 +81,12 @@ export default class AccountService {
         data: {
           stripe_subscription_id,
           current_period_ends,
-          plan_id: paid_plan.id,
-          features: paid_plan.features,
-          max_notes: paid_plan.max_notes,
-          max_members: paid_plan.max_members,
-          plan_name: paid_plan.name,
-          ai_gen_max_pm: paid_plan.ai_gen_max_pm,
+          plan_id: VinoMaxPlan.id,
+          features: VinoMaxPlan.features,
+          max_notes: VinoMaxPlan.max_notes,
+          max_members: VinoMaxPlan.max_members,
+          plan_name: VinoMaxPlan.name,
+          ai_gen_max_pm: VinoMaxPlan.ai_gen_max_pm,
           ai_gen_count: 0 // I did vacillate on this point ultimately easier to just reset, discussion here https://www.reddit.com/r/SaaS/comments/16e9bew/should_i_reset_usage_counts_on_plan_upgrade/
         }
       });

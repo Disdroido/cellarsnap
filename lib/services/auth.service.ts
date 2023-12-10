@@ -28,7 +28,7 @@ export default class AuthService {
     display_name: string,
     email: string
   ): Promise<FullDBUser | null> {
-    const trialPlan = await prisma_client.plan.findFirstOrThrow({
+    const babyVinoPlan = await prisma_client.plan.findFirstOrThrow({
       where: { name: config.initialPlanName }
     });
     const join_password: string = generator.generate({
@@ -38,7 +38,7 @@ export default class AuthService {
     return prisma_client.user.create({
       data: {
         supabase_uid: supabase_uid,
-        name: display_name,
+        display_name: display_name,
         email: email,
         memberships: {
           create: {
@@ -49,10 +49,11 @@ export default class AuthService {
                   new Date(),
                   config.initialPlanActiveMonths
                 ),
-                plan_id: trialPlan.id,
-                features: trialPlan.features,
-                max_members: trialPlan.max_members,
-                plan_name: trialPlan.name,
+                plan_id: babyVinoPlan.id,
+                features: babyVinoPlan.features,
+                max_notes: babyVinoPlan.max_notes,
+                max_members: babyVinoPlan.max_members,
+                plan_name: babyVinoPlan.name,
                 join_password: join_password
               }
             },
