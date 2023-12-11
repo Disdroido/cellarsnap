@@ -1,4 +1,5 @@
 export default {
+<<<<<<< HEAD
   theme: {
     extend: {
       colors: {
@@ -93,6 +94,12 @@ export default {
         },
       },
     ],
+=======
+  plugins: [require("@tailwindcss/typography"), require("daisyui")],
+  daisyui: {
+    styled: true,
+    themes: ["acid", "night"],
+>>>>>>> template/master
     base: true,
     utils: true,
     logs: true,
@@ -100,4 +107,8 @@ export default {
     prefix: "",
     darkTheme: "night",
   },
+<<<<<<< HEAD
 };
+=======
+}
+>>>>>>> template/master

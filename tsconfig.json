@@ -6,4 +6,5 @@
     "types": ["node"],
     "verbatimModuleSyntax": false
   },
+  "extends": "./.nuxt/tsconfig.json"
 }

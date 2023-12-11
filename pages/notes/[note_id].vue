@@ -2,7 +2,11 @@
   const route = useRoute();
   const { $client } = useNuxtApp();
   const { data: note } = await $client.notes.getById.useQuery({
+<<<<<<< HEAD
     note_id: route.params.note_id
+=======
+    note_id: +route.params.note_id
+>>>>>>> template/master
   });
 </script>
 <template>

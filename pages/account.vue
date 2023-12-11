@@ -136,18 +136,18 @@
         </div>
       </div>
 
-      <!-- <div class="flex flex-col gap-4">
+      <div class="flex flex-col gap-4">
         <h2 class="text-lg font-bold">Members</h2>
         <div class="flex flex-col gap-2">
           <div
             v-for="accountMember in activeAccountMembers"
             class="flex gap-4 items-center">
-            <span>{{ accountMember.user?.display_name }}</span>
+            <span>{{ accountMember.user.display_name }}</span>
             <span
               class="bg-green-500 text-white font-semibold py-1 px-2 rounded-full">
               {{ accountMember.access }}
             </span>
-            <span class="text-gray-500">({{ accountMember.user?.email }})</span>
+            <span class="text-gray-500">({{ accountMember.user.email }})</span>
             <button
               @click.prevent="
                 accountStore.acceptPendingMembership(accountMember.id)
@@ -177,7 +177,7 @@
             <button
               @click.prevent="
                 accountStore.changeUserAccessWithinAccount(
-                  accountMember.user_id,
+                  accountMember.user.id,
                   ACCOUNT_ACCESS.READ_WRITE
                 )
               "
@@ -194,7 +194,7 @@
             <button
               @click.prevent="
                 accountStore.changeUserAccessWithinAccount(
-                  accountMember.user_id,
+                  accountMember.user.id,
                   ACCOUNT_ACCESS.ADMIN
                 )
               "
@@ -220,7 +220,7 @@
             </button>
           </div>
         </div>
-      </div> -->
+      </div>
     </div>
   </div>
 </template>

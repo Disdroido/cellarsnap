@@ -1,7 +1,7 @@
 // Workaround for prisma issue (https://github.com/prisma/prisma/issues/12504#issuecomment-1147356141)
 
 // Import original enum as type
-import { ACCOUNT_ACCESS as ACCOUNT_ACCESS_ORIGINAL } from '@prisma/client';
+import type { ACCOUNT_ACCESS as ACCOUNT_ACCESS_ORIGINAL } from '@prisma/client';
 
 // Guarantee that the implementation corresponds to the original type
 export const ACCOUNT_ACCESS: { [k in ACCOUNT_ACCESS_ORIGINAL]: k } = {
