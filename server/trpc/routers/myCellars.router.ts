@@ -55,7 +55,7 @@ export const myCellarsRouter = router({
           bottleName: z.string().nullable(),
           bottleYear: z.number().nullable(),
           bottleType: z.string().nullable(),
-          bottleAmount: z.number().nullish(),
+          bottleAmount: z.number().nullable(),
         }))
       }))
     }))
