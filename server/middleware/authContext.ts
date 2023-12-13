@@ -16,7 +16,7 @@ declare module 'h3' {
 
 export default defineEventHandler(async event => {
   if (
-    !(event.path.startsWith('/api/trpc') || event.path.startsWith('/api/note') || event.path.startsWith('/api/myCellar'))
+    !(event.path.startsWith('/api/trpc') || event.path.startsWith('/api/note'))
   ) {
     return; // only apply middleware to working routes
   }
@@ -56,7 +56,7 @@ export default defineEventHandler(async event => {
         ) {
           activeAccountId = preferredAccountId;
         } else {
-          const defaultActive = dbUser.memberships[0].account_id;
+          const defaultActive = dbUser.memberships[0].account_id.toString();
           setCookie(event, 'preferred-active-account-id', defaultActive, {
             expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 10)
           });

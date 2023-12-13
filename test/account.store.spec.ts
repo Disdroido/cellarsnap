@@ -6,15 +6,15 @@ import { FullDBUser } from '~/lib/services/service.types';
 
 const fakeInitAccountStoreAdmin = (accountStore: any) => {
   const dbUser: FullDBUser = {
-    id: '023b2d98-14cc-4afa-b843-a3be8de40c19',
+    id: 1,
     name: 'John Doe',
     memberships: [
-      { account_id: '023b2d98-14cc-4afa-b843-a3be8de40c19', access: 'ADMIN' },
-      { account_id: '023b2d98-14cc-4afa-b843-a3be8de40c13', access: 'READ_ONLY' }
+      { account_id: 1, access: 'ADMIN' },
+      { account_id: 2, access: 'READ_ONLY' }
     ]
   } as any;
   accountStore.dbUser = dbUser;
-  accountStore.activeAccountId = '023b2d98-14cc-4afa-b843-a3be8de40c19';
+  accountStore.activeAccountId = 1;
 };
 
 describe('Account Store', async () => {
@@ -30,7 +30,7 @@ describe('Account Store', async () => {
           getDBUser: {
             query: () => ({
               dbUser: {
-                id: '023b2d98-14cc-4afa-b843-a3be8de40c19',
+                id: 1,
                 name: 'John Doe',
                 memberships: []
               }
@@ -51,7 +51,7 @@ describe('Account Store', async () => {
     await accountStore.init();
 
     expect(accountStore.dbUser).toEqual({
-      id: '023b2d98-14cc-4afa-b843-a3be8de40c19',
+      id: 1,
       name: 'John Doe',
       memberships: []
     });
@@ -87,7 +87,7 @@ describe('Account Store', async () => {
     fakeInitAccountStoreAdmin(accountStore);
 
     expect(accountStore.activeMembership).toEqual({
-      account_id: '023b2d98-14cc-4afa-b843-a3be8de40c19',
+      account_id: 1,
       access: 'ADMIN'
     });
   });

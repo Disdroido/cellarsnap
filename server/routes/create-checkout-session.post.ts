@@ -9,7 +9,7 @@ const stripe = new Stripe(config.stripeSecretKey, { apiVersion: '2022-11-15' });
 export default defineEventHandler(async event => {
   const body = await readBody(event);
   let { price_id, account_id } = body;
-  account_id = account_id;
+  account_id = +account_id;
   console.log(
     `session.post.ts recieved price_id:${price_id}, account_id:${account_id}`
   );

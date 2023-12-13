@@ -5,7 +5,7 @@
 
 <template>
   <div>
-    <div class="hidden sm:max-w-[220px] md:max-w-[250px] 2xl:max-w-[280px] fixed inset-0 md:flex bg-shark-900 z-20">
+    <div class="hidden sm:max-w-[220px] md:max-w-[250px] 2xl:max-w-[280px] fixed inset-0 md:flex bg-bunker-950 z-20">
       <UCard
         class="flex flex-col flex-1"
         :ui="{

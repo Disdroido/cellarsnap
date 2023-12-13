@@ -43,7 +43,7 @@ export default class MyCellarsService {
       include: { MyCellars: true }
     });
 
-    if (account.MyCellars.length >= account.max_notes) {
+    if (account.MyCellars.length >= account.max_cellars) {
       throw new AccountLimitError(
         'Note Limit reached, no new notes can be added'
       );

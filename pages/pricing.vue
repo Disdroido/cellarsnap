@@ -62,7 +62,7 @@
           <input
             type="hidden"
             name="price_id"
-            value="price_1NdtSHGuTcQbsAEN20wsFyug" />
+            value="price_1MpOiwJfLn4RhYiLqfy6U8ZR" />
           <input
             type="hidden"
             name="account_id"
@@ -104,7 +104,7 @@
           <input
             type="hidden"
             name="price_id"
-            value="price_1NdtStGuTcQbsAENCArIBtQO" />
+            value="price_1MpOjtJfLn4RhYiLsjzAso90" />
           <input
             type="hidden"
             name="account_id"

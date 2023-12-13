@@ -10,8 +10,8 @@ export default defineNuxtConfig({
   modules: [
     '@nuxtjs/supabase',
     '@pinia/nuxt',
-    'nuxt-icon',
-    '@nuxt/ui'
+    '@nuxt/ui',
+    'nuxt-icon'
   ],
   imports: {
     dirs: ['./stores']

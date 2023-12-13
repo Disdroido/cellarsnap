@@ -114,7 +114,8 @@
 </script>
 
 <template>
-  <div class="container mx-auto">
+  <Sidebar />
+  <UContainer :ui="{ base: 'sm:ml-[220px] md:ml-[250px] 2xl:mx-auto'}">
     <div class="w-full">
       <div class="p-5 w-full">
         <div class="flex flex-col md:flex-row justify-between">
@@ -221,5 +222,5 @@
         </USlideover>
       </div>
     </div>
-  </div>
+  </UContainer>
 </template>

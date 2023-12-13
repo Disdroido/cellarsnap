@@ -60,18 +60,17 @@ export default class AccountService {
       where: { stripe_customer_id }
     });
 
-    const VinoMaxPlan = await prisma_client.plan.findFirstOrThrow({
+    const paid_plan = await prisma_client.plan.findFirstOrThrow({
       where: { stripe_product_id }
     });
 
-    if (VinoMaxPlan.id == account.plan_id) {
+    if (paid_plan.id == account.plan_id) {
       // only update sub and period info
       return await prisma_client.account.update({
         where: { id: account.id },
         data: {
           stripe_subscription_id,
           current_period_ends,
-          ai_gen_count: 0
         }
       });
     } else {
@@ -81,13 +80,12 @@ export default class AccountService {
         data: {
           stripe_subscription_id,
           current_period_ends,
-          plan_id: VinoMaxPlan.id,
-          features: VinoMaxPlan.features,
-          max_notes: VinoMaxPlan.max_notes,
-          max_members: VinoMaxPlan.max_members,
-          plan_name: VinoMaxPlan.name,
-          ai_gen_max_pm: VinoMaxPlan.ai_gen_max_pm,
-          ai_gen_count: 0 // I did vacillate on this point ultimately easier to just reset, discussion here https://www.reddit.com/r/SaaS/comments/16e9bew/should_i_reset_usage_counts_on_plan_upgrade/
+          plan_id: paid_plan.id,
+          features: paid_plan.features,
+          max_bottles: paid_plan.max_bottles,
+          max_cellars: paid_plan.max_cellars,
+          max_members: paid_plan.max_members,
+          plan_name: paid_plan.name,
         }
       });
     }
@@ -188,7 +186,7 @@ export default class AccountService {
     });
   }
 
-  async changeAccountPlan(account_id: string, plan_id: number) {
+  async changeAccountPlan(account_id: string, plan_id: string) {
     const plan = await prisma_client.plan.findFirstOrThrow({
       where: { id: plan_id }
     });
@@ -197,7 +195,8 @@ export default class AccountService {
       data: {
         plan_id: plan_id,
         features: plan.features,
-        max_notes: plan.max_notes
+        max_bottles: plan.max_bottles,
+        max_cellars: plan.max_cellars
       }
     });
   }
@@ -358,7 +357,6 @@ export default class AccountService {
             1
           ),
           // reset anything that is affected by the rollover
-          ai_gen_count: 0
         }
       });
     }
@@ -366,24 +364,24 @@ export default class AccountService {
     return account;
   }
 
-  async checkAIGenCount(account_id: string) {
-    const account = await this.getAccountWithPeriodRollover(account_id);
+  // async checkAIGenCount(account_id: string) {
+  //   const account = await this.getAccountWithPeriodRollover(account_id);
 
-    if (account.ai_gen_count >= account.ai_gen_max_pm) {
-      throw new AccountLimitError(
-        'Monthly AI gen limit reached, no new AI Generations can be made'
-      );
-    }
+  //   if (account.ai_gen_count >= account.ai_gen_max_pm) {
+  //     throw new AccountLimitError(
+  //       'Monthly AI gen limit reached, no new AI Generations can be made'
+  //     );
+  //   }
 
-    return account;
-  }
+  //   return account;
+  // }
 
-  async incrementAIGenCount(account: any) {
-    return await prisma_client.account.update({
-      where: { id: account.id },
-      data: {
-        ai_gen_count: account.ai_gen_count + 1
-      }
-    });
-  }
+  // async incrementAIGenCount(account: any) {
+  //   return await prisma_client.account.update({
+  //     where: { id: account.id },
+  //     data: {
+  //       ai_gen_count: account.ai_gen_count + 1
+  //     }
+  //   });
+  // }
 }

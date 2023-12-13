@@ -54,8 +54,8 @@
   });
 </script>
 <template>
-  <div class="flex flex-row w-full h-screen relative">
-    <div class="absolute left-1/2 md:left-1/3 top-1/2 -translate-x-1/2 md:-translate-x-1/3 -translate-y-1/2 w-11/12 md:w-full max-w-md p-6 space-y-6 rounded-lg shadow-2xl bg-shark-900">
+  <div class="flex flex-col items-center justify-center h-screen bg-gray-100">
+    <div class="w-full max-w-md p-6 space-y-6 bg-white rounded-lg shadow-lg">
       <h1 class="text-3xl font-bold text-center">Sign in</h1>
       <form @submit.prevent="handleStandardSignin" class="space-y-4">
         <div>
@@ -87,11 +87,19 @@
         <button
           :disabled="loading || password === ''"
           type="submit"
-          class="flex flex-row gap-2 text-center justify-center w-full py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
-          Sign in <svg v-if="loading === true" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><rect x="0" y="0" width="24" height="24" fill="none" stroke="none" /><path fill="none" stroke="currentColor" stroke-dasharray="15" stroke-dashoffset="15" stroke-linecap="round" stroke-width="2" d="M12 3C16.9706 3 21 7.02944 21 12"><animate fill="freeze" attributeName="stroke-dashoffset" dur="0.3s" values="15;0"/><animateTransform attributeName="transform" dur="1.5s" repeatCount="indefinite" type="rotate" values="0 12 12;360 12 12"/></path></svg>
+          class="w-full py-2 text-white bg-indigo-600 rounded-md hover:bg-indigo-700">
+          Sign in
         </button>
       </form>
+      <p class="text-center">or</p>
+      <button
+        @click="handleGoogleSignin()"
+        class="w-full py-2 text-white bg-red-600 rounded-md hover:bg-red-700">
+        <span class="flex items-center justify-center space-x-2">
+          <Icon name="fa-brands:google" class="w-5 h-5" />
+          <span>Sign in with Google</span>
+        </span>
+      </button>
     </div>
-    <div class="flex ml-auto justify-end bg-tawny-port-900 h-full w-2/3 rounded-l-[150px] md:rounded-l-[300px]"></div>
   </div>
 </template>

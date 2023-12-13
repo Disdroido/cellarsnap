@@ -36,7 +36,7 @@
   });
 </script>
 <template>
-  <div class="flex flex-col items-center justify-center h-screen bg-shark-900">
+  <div class="flex flex-col items-center justify-center h-screen bg-gray-100">
     <div class="w-full max-w-md p-6 space-y-6 bg-white rounded-lg shadow-lg">
       <h1 class="text-3xl font-bold text-center">Sign up</h1>
       <form @submit.prevent="handleStandardSignup" class="space-y-4">
@@ -85,14 +85,14 @@
         </p>
       </form>
       <p class="text-center">or</p>
-      <!-- <button
+      <button
         @click="supabase.auth.signInWithOAuth({ provider: 'google' })"
         class="w-full py-2 text-white bg-red-600 rounded-md hover:bg-red-700">
         <span class="flex items-center justify-center space-x-2">
           <Icon name="fa-brands:google" class="w-5 h-5" />
           <span>Sign up with Google</span>
         </span>
-      </button> -->
+      </button>
       <p class="mt-4 text-xs text-center text-gray-500">
         By proceeding, I agree to the
         <NuxtLink to="/privacy">Privacy Statement</NuxtLink> and

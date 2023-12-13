@@ -41,7 +41,7 @@ export const accountRouter = router({
       setCookie(
         ctx.event,
         'preferred-active-account-id',
-        input.account_id.toString(),
+        input.account_id,
         { expires: new Date(Date.now() + 1000 * 60 * 60 * 24 * 365 * 10) }
       );
     }),

@@ -13,9 +13,8 @@ datasource db {
 model User {
   id           String  @id @default(uuid())
   supabase_uid String
-  email        String  @unique
+  email        String
   display_name String?
-  name         String?
 
   memberships Membership[]
   MyCellars   MyCellars[]
@@ -32,8 +31,8 @@ enum ACCOUNT_ACCESS {
 
 model Membership {
   id         String         @id @default(uuid())
-  user_id    String         @unique
-  account_id String         @unique
+  user_id    String
+  account_id String
   account    Account        @relation(fields: [account_id], references: [id])
   user       User           @relation(fields: [user_id], references: [id])
   access     ACCOUNT_ACCESS @default(READ_ONLY)
@@ -48,44 +47,32 @@ model Account {
   name                   String
   current_period_ends    DateTime     @default(now())
   features               String[]
-  plan_id                Int
+  plan_id                String
   plan                   Plan         @relation(fields: [plan_id], references: [id])
   plan_name              String
   members                Membership[]
-  notes                  Note[]
-  max_notes              Int          @default(100)
   stripe_subscription_id String?
   stripe_customer_id     String?
   max_members            Int          @default(1)
   join_password          String       @unique
-  ai_gen_max_pm          Int          @default(7)
-  ai_gen_count           Int          @default(0)
   MyCellars              MyCellars[]
+  max_bottles            Int          @default(50)
+  max_cellars            Int          @default(1)
 
   @@map("account")
 }
 
 model Plan {
-  id                Int       @id @default(autoincrement())
+  id                String    @id @default(uuid())
   name              String    @unique
   features          String[]
   accounts          Account[]
-  max_notes         Int       @default(100)
+  max_bottles       Int       @default(50)
+  max_cellars       Int       @default(1)
   stripe_product_id String?
   max_members       Int       @default(1)
-  ai_gen_max_pm     Int       @default(7)
 
   @@map("plan")
-}
-
-model Note {
-  id         String   @id @default(uuid())
-  account_id String?
-  account    Account? @relation(fields: [account_id], references: [id])
-
-  note_text String
-
-  @@map("note")
 }
 
 model MyCellars {
@@ -95,8 +82,8 @@ model MyCellars {
   account     Account @relation(fields: [account_id], references: [id])
   racks       Json[] // Make the racks field nullable by adding a question mark (?)
   bottles     Json?
-  User        User?   @relation(fields: [user_id], references: [id])
-  user_id     String?
+  User        User?   @relation(fields: [userId], references: [id])
+  userId      String?
 
   @@map("my_cellars")
 }
