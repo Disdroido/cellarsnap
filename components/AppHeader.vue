@@ -13,11 +13,11 @@
         </NuxtLink>
       </div>
       <div class="flex flex-1 flex-row justify-end justify-items-end items-center gap-4 md:gap-0">
-        <ul class="menu menu-horizontal px-3 md:flex gap-3 justify-end hidden">
-          <li v-if="user"><NuxtLink to="/dashboard" class="hover:text-tawny-port-600 hover:bg-transparent">Dashboard</NuxtLink></li>
-          <li><NuxtLink to="/pricing" class="hover:text-tawny-port-600 hover:bg-transparent">Pricing</NuxtLink></li>
-          <li v-if="!user"><NuxtLink to="/signin" class="hover:text-tawny-port-600 hover:bg-transparent">Sign In</NuxtLink></li>
-          <li v-if="!user"><NuxtLink to="/signup" class="hover:text-tawny-port-600 hover:bg-transparent">Start for free</NuxtLink></li>
+        <ul class="menu menu-horizontal px-3 md:flex gap-3 justify-end hidden text-[#edf5f1]">
+          <li v-if="user"><NuxtLink to="/dashboard" class="text-[#edf5f1] hover:text-tawny-port-600 hover:bg-transparent">Dashboard</NuxtLink></li>
+          <li><NuxtLink to="/pricing" class="text-[#edf5f1] hover:text-tawny-port-600 hover:bg-transparent">Pricing</NuxtLink></li>
+          <li v-if="!user"><NuxtLink to="/signin" class="text-[#edf5f1] hover:text-tawny-port-600 hover:bg-transparent">Sign In</NuxtLink></li>
+          <li v-if="!user"><NuxtLink to="/signup" class="text-[#edf5f1] hover:text-tawny-port-600 hover:bg-transparent">Start for free</NuxtLink></li>
         </ul>
         <UserAccount v-if="user" :user="user" />
         <button @click="navigationOpen = true" class="md:hidden flex flex-col gap-[6px] h-7 w-7 text-[#ebfaf2] justify-center">
@@ -30,7 +30,7 @@
   </div>
 
   <USlideover v-model="navigationOpen">
-    <UCard class="flex flex-col flex-1" :ui="{ background: 'bg-shark-950 dark:bg-shark-950', rounded: '', body: { base: 'flex-1' }, header: { padding: 'pt-7 px-4 sm:px-6' }, ring: '', divide: '' }">
+    <UCard class="flex flex-col flex-1" :ui="{ base: 'text-[#edf5f1]', background: 'bg-shark-950 dark:bg-shark-950', rounded: '', body: { base: 'flex-1' }, header: { padding: 'pt-7 px-4 sm:px-6' }, ring: '', divide: '' }">
       <template #header>
         <div class="flex justify-end">
           <button @click="navigationOpen = false" class="">
@@ -52,7 +52,7 @@
       <div class="h-full flex flex-col gap-4">
         <NuxtLink
           to="/dashboard"
-          class="w-full shadow-lg text-center rounded-md py-3 text-white border-2 border-tawny-port-900 hover:bg-tawny-port-900 duration-200"
+          class="w-full shadow-lg text-center rounded-md py-3 text-[#edf5f1] border-2 border-tawny-port-900 hover:bg-tawny-port-900 duration-200"
           :class="{
             'bg-tawny-port-900': $route.path === '/dashboard'
           }"
@@ -62,7 +62,7 @@
         </NuxtLink>
         <NuxtLink
           to="/mycellars"
-          class="w-full shadow-lg text-center rounded-md py-3 text-white border-2 border-tawny-port-900 hover:bg-tawny-port-900 duration-200"
+          class="w-full shadow-lg text-center rounded-md py-3 text-[#edf5f1] border-2 border-tawny-port-900 hover:bg-tawny-port-900 duration-200"
           :class="{
             'bg-tawny-port-900': $route.path === '/mycellars'
           }"
@@ -71,7 +71,7 @@
           >My Cellars
           </NuxtLink>
         <NuxtLink to="/pricing" 
-          class="w-full shadow-lg text-center rounded-md py-3 text-white border-2 border-tawny-port-900 hover:bg-tawny-port-900 duration-200" 
+          class="w-full shadow-lg text-center rounded-md py-3 text-[#edf5f1] border-2 border-tawny-port-900 hover:bg-tawny-port-900 duration-200" 
           :class="{
             'bg-tawny-port-900': $route.path === '/pricing'
           }"
@@ -80,7 +80,7 @@
         </NuxtLink>
         <div class="flex flex-col gap-4 justify-end h-full">
           <NuxtLink to="/signin" 
-            class="w-full shadow-lg text-center rounded-md py-3 text-white border-2 border-tawny-port-900 hover:bg-tawny-port-900 duration-200" 
+            class="w-full shadow-lg text-center rounded-md py-3 text-[#edf5f1] border-2 border-tawny-port-900 hover:bg-tawny-port-900 duration-200" 
             :class="{
               'bg-tawny-port-900': $route.path === '/signin'
             }"
@@ -88,7 +88,7 @@
             >Sign In
           </NuxtLink>
           <NuxtLink to="/signup" 
-            class="w-full shadow-lg text-center rounded-md py-3 text-white bg-tawny-port-900 hover:bg-tawny-port-900 duration-200"
+            class="w-full shadow-lg text-center rounded-md py-3 text-[#edf5f1] bg-tawny-port-900 hover:bg-tawny-port-900 duration-200"
             v-if="!user" @click="navigationOpen = false"
             >Start for free
           </NuxtLink>
