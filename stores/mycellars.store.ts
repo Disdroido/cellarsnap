@@ -51,6 +51,8 @@ export const useMyCellarsStore = defineStore('mycellars', () => {
     }
   }
 
+  
+
   // async function generateAINoteFromPrompt(user_prompt: string) {
   //   const { $client } = useNuxtApp();
   //   const { noteText } = await $client.notes.generateAINoteFromPrompt.query({

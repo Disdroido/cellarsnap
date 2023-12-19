@@ -6,6 +6,7 @@
   const myCellarsStore = useMyCellarsStore();
   const { mycellars } = storeToRefs(myCellarsStore); // ensure the notes list is reactive
   import { v4 as uuidv4 } from 'uuid';
+  import { createClient } from '@supabase/supabase-js';
 
   definePageMeta({
     middleware: ['auth']
@@ -43,7 +44,7 @@
     selectedRack.value = racks.value.find(r => r.rackId === rackId) ?? null;
   };
 
-  const newBottle = ref({ bottleId: uuidv4(), bottleName: '', bottleYear: 0, bottleType: '', bottleAmount: 0 });
+  const newBottle = ref({ bottleId: uuidv4(), bottleBrand: '', bottleName: '', bottleYear: 0, bottleType: '', bottleAmount: 0 });
   const addBottles = (rackId: string | null) => {
     const rack: { rackBottles: any[] } | null = racks.value.find(r => r.rackId === rackId);
     if (rack) {
@@ -51,7 +52,7 @@
         rack.rackBottles = [];
       }
       rack.rackBottles.push(newBottle.value);
-      newBottle.value = { bottleId: '', bottleName: '', bottleYear: 0, bottleType: '', bottleAmount: 0 };
+      newBottle.value = { bottleId: '', bottleBrand: '', bottleName: '', bottleYear: 0, bottleType: '', bottleAmount: 0 };
       saveRacks();
     }
     console.log(rack)
@@ -73,6 +74,9 @@
   }
 
   const rackBottlesColumns = [{
+    key: 'bottleBrand',
+    label: 'Vino Brand',
+  }, {
     key: 'bottleName',
     label: 'Vino Name'
   }, {
@@ -111,6 +115,41 @@
       String(bottle.bottleYear).includes(q.value.toLowerCase())
     })
   })
+
+  // In your Vue component
+  // console.log(process.env.SUPABASE_URL)
+  // const supabase = createClient('https://mveklaitfhbauxxerguc.supabase.co', 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Im12ZWtsYWl0ZmhiYXV4eGVyZ3VjIiwicm9sZSI6ImFub24iLCJpYXQiOjE2OTg2MjUxODAsImV4cCI6MjAxNDIwMTE4MH0.dtvre_3YK0Xh2YY5I7e1txKBroC1adYVvOyT781qOZ4')
+  // const selectedFile = ref(null);
+
+  // const onFileChange = (event) => {
+  //   selectedFile.value = event.target.files[0];
+  // };
+  // const handleImageUpload = async () => {
+  //   if (!selectedFile.value) {
+  //     console.error('No file selected');
+  //     return;
+  //   }
+
+  //   const filePath = `${uuidv4()}.jpg`; // Generate a unique file path for each upload
+  //   const { error: uploadError } = await supabase.storage.from('wine_bottle_scans').upload(filePath, selectedFile.value);
+  //   if (uploadError) {
+  //     console.error('Error uploading image:', uploadError);
+  //   } else {
+  //     const publicURL = `https://mveklaitfhbauxxerguc.supabase.co/storage/v1/object/public/wine_bottle_scans/${filePath}`;
+  //     if (!publicURL) {
+  //       console.error('Error getting image URL');
+  //     } else {
+  //       // Send a GET request to the API
+  //       const response = await fetch(`https://7oybip.buildship.run/vino_search?image_url=${encodeURIComponent(publicURL)}`);
+  //       if (!response.ok) {
+  //         console.error('Error extracting text from image:', response.statusText);
+  //       } else {
+  //         const text = await response.text();
+  //         console.log('Text from image:', text);
+  //       }
+  //     }
+  //   }
+  // };
 </script>
 
 <template>
@@ -121,6 +160,11 @@
         <div class="flex flex-col md:flex-row justify-between">
           <h4 class="">{{ mycellar?.mycellar.cellar_name.toUpperCase() }}</h4>
           <UButton :ui="{ base: 'w-full md:w-auto' }" label="Add New Rack" @click="openAddBottles(rack.rackId)" />
+        </div>
+
+        <div>
+          <input type="file" @change="onFileChange" />
+          <button @click="handleImageUpload">Upload Image</button>
         </div>
         
         <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
@@ -188,6 +232,7 @@
             <div class="h-full">
               <div v-if="selectedRack">
                 <div v-for="bottles in selectedRack.rackBottles" :key="bottles.bottleId">
+                  <p>{{ bottles.bottleBrand }}</p>
                   <p>{{ bottles.bottleName }}</p>
                   <p>{{ bottles.bottleType }}</p>
                   <p>{{ bottles.bottleYear }}</p>
@@ -198,6 +243,10 @@
 
               <div v-if="selectedRack">
                 <form @submit.prevent="addBottles(selectedRack.rackId, newBottle)">
+                  <label>
+                    Bottle Brand:
+                    <input type="text" v-model="newBottle.bottleBrand" class="bg-transparent border-primary border-2" required>
+                  </label>
                   <label>
                     Bottle Name:
                     <input type="text" v-model="newBottle.bottleName" class="bg-transparent border-primary border-2" required>

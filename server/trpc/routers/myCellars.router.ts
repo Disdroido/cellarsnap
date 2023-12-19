@@ -79,6 +79,7 @@ export const myCellarsRouter = router({
         myCellar
       };
     }),
+
   // generateAINoteFromPrompt: readWriteProcedure
   //   .use(accountHasSpecialFeature)
   //   .input(z.object({ user_prompt: z.string() }))
